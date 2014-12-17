@@ -1,0 +1,62 @@
+{
+  "name": "s3fs",
+  "version": "0.0.1",
+  "description": "Implementation of NodeJS FS interface using Amazon Simple Storage Service (S3) for storage.",
+  "keywords": [
+    "s3fs",
+    "amazon s3",
+    "aws s3",
+    "fs",
+    "file system",
+    "simple storage service",
+    "amazon"
+  ],
+  "homepage": "http://github.com/RiptideCloud/s3fs",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/RiptideCloud/s3fs.git"
+  },
+  "bugs": {
+    "url": "http://github.com/RiptideCloud/s3fs/issues"
+  },
+  "author": {
+    "name": "Jhorlin De Armas",
+    "email": "Jhorlin@gmail.com",
+    "url": "https://github.com/Jhorlin"
+  },
+  "contributors": {
+    "name": "David Pate",
+    "email": "davidtpate@gmail.com",
+    "url": "https://github.com/DavidTPate"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/MIT"
+    }
+  ],
+  "main": "index.js",
+  "dependencies": {
+    "aws-sdk": "^2.x",
+    "cb-q": "0.0.2",
+    "extend": "^2.x",
+    "q": "^1.x"
+  },
+  "devDependencies": {
+    "buddy.js": "^0.7.x",
+    "chai": "^1.10.0",
+    "chai-as-promised": "^4.1.1",
+    "nsp": "^0.5.x",
+    "mocha": "^2.x",
+    "istanbul": "^0.3.x",
+    "jscs": "^1.x",
+    "jshint": "^2.x",
+    "jsinspect": "^0.3.x",
+    "reporter-file": "^0.0.x",
+    "should": "^4.x"
+  },
+  "scripts": {
+    "test": "MOCHA_REPORTER=Spec MOCHA_REPORTER_FILE=reports/xunit.xml istanbul cover node_modules/mocha/bin/_mocha -- --check-leaks  --timeout 60000 --reporter reporter-file test/",
+    "inspect": "jshint --show-non-errors --reporter=jslint . > reports/jshint.xml | echo 'Oh hai' && jscs --reporter checkstyle . > reports/checkstyle.xml | echo 'The name is' && jsinspect . > reports/jsinspect.json | echo 'Bond,' && buddy --reporter json index.js lib test > reports/buddy.json | echo 'James' && nsp audit-package >& reports/security.txt | echo 'Bond.'"
+  }
+}
