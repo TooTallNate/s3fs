@@ -6,6 +6,8 @@ node_js:
 env:
   global:
   - LOG_LEVEL=error
+  - secure: Vktw46kHwdAR21Mk5PuHH3a1x9W2F8qGDXB7QRjfrTyJXrDmIIn2jl2hvgKIhobDqoj9zJXlxkEbYPFU50iTSQgMVWDTOzuA9Yc/eRriIXtLSWTqD/wOiG+e3f9vRgqtiZODi1kYmssFpe0JPiTz2ey8MWs1JXDp2Gnadqg7lBo=
+  - secure: Lu6OoVUouRC82PbUxF2tjd6fZZsyA/sici31Zl3VaoI3eKe2Fn3joI4hGBDsy8cr/5I8fQjXk/uji1KWuGdxCg7cQzoBf/eKanKo5+/N1VMsngsm4DliBqNWdvrQLfutrZOb4Gt6P4bROhGUzVcBI0CsvR4IbpRp0ArZrvnR5ys=
 matrix:
   fast_finish: true
 script: npm test
