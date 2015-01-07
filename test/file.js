@@ -92,7 +92,7 @@
                     .then(function () {
                         //Cannot use cbQ here since it is not the standard err, data callback signature.
                         var deferred = Q.defer();
-                        s3fsImpl.exists('test-file.json', function(exists) {
+                        s3fsImpl.exists('test-file.json', function (exists) {
                             deferred.resolve(exists);
                         });
                         return deferred.promise;
@@ -277,6 +277,66 @@
                         return deferred.promise;
                     })
             ).to.eventually.be.fulfilled;
+        });
+
+        it("should be able to retrieve the stats of a file - stat(2)", function () {
+            return expect(s3fsImpl.create()
+                    .then(function () {
+                        return s3fsImpl.writeFile('test-file.json', '{ "test": "test" }');
+                    })
+                    .then(function () {
+                        return s3fsImpl.stat('test-file.json');
+                    })
+            ).to.eventually.satisfy(function (stats) {
+                    expect(stats.isFile()).to.be.true;
+                    return true;
+                });
+        });
+
+        it("should be able to retrieve the stats of a file with a callback - stat(2)", function () {
+            return expect(s3fsImpl.create()
+                    .then(function () {
+                        return s3fsImpl.writeFile('test-file.json', '{ "test": "test" }');
+                    })
+                    .then(function () {
+                        var cb = cbQ.cb();
+                        s3fsImpl.stat('test-file.json', cb);
+                        return cb.promise;
+                    })
+            ).to.eventually.satisfy(function (stats) {
+                    expect(stats.isFile()).to.be.true;
+                    return true;
+                });
+        });
+
+        it("should be able to retrieve the stats of a file - lstat(2)", function () {
+            return expect(s3fsImpl.create()
+                    .then(function () {
+                        return s3fsImpl.writeFile('test-file.json', '{ "test": "test" }');
+                    })
+                    .then(function () {
+                        return s3fsImpl.lstat('test-file.json');
+                    })
+            ).to.eventually.satisfy(function (stats) {
+                    expect(stats.isFile()).to.be.true;
+                    return true;
+                });
+        });
+
+        it("should be able to retrieve the stats of a file with a callback - lstat(2)", function () {
+            return expect(s3fsImpl.create()
+                    .then(function () {
+                        return s3fsImpl.writeFile('test-file.json', '{ "test": "test" }');
+                    })
+                    .then(function () {
+                        var cb = cbQ.cb();
+                        s3fsImpl.lstat('test-file.json', cb);
+                        return cb.promise;
+                    })
+            ).to.eventually.satisfy(function (stats) {
+                    expect(stats.isFile()).to.be.true;
+                    return true;
+                });
         });
 
     });

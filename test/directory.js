@@ -288,13 +288,43 @@
                 });
         });
 
-        it('should retrieve the stats of a directory - lstat(2)', function () {
+        it('should retrieve the stats of a directory - stat(2)', function () {
             return expect(s3fsImpl.create()
                     .then(function () {
                         return s3fsImpl.mkdir('testDir/');
                     })
                     .then(function () {
                         return s3fsImpl.stat('testDir/');
+                    })
+            ).to.eventually.satisfy(function (stats) {
+                    expect(stats.isDirectory()).to.be.true;
+                    return true;
+                });
+        });
+
+        it('should retrieve the stats of a directory with a callback - stat(2)', function () {
+            return expect(s3fsImpl.create()
+                    .then(function () {
+                        return s3fsImpl.mkdir('testDir/');
+                    })
+                    .then(function () {
+                        var cb = cbQ.cb();
+                        s3fsImpl.stat('testDir/', cb);
+                        return cb.promise;
+                    })
+            ).to.eventually.satisfy(function (stats) {
+                    expect(stats.isDirectory()).to.be.true;
+                    return true;
+                });
+        });
+
+        it('should retrieve the stats of a directory - lstat(2)', function () {
+            return expect(s3fsImpl.create()
+                    .then(function () {
+                        return s3fsImpl.mkdir('testDir/');
+                    })
+                    .then(function () {
+                        return s3fsImpl.lstat('testDir/');
                     })
             ).to.eventually.satisfy(function (stats) {
                     expect(stats.isDirectory()).to.be.true;
@@ -309,7 +339,7 @@
                     })
                     .then(function () {
                         var cb = cbQ.cb();
-                        s3fsImpl.stat('testDir/', cb);
+                        s3fsImpl.lstat('testDir/', cb);
                         return cb.promise;
                     })
             ).to.eventually.satisfy(function (stats) {
