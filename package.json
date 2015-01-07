@@ -44,8 +44,8 @@
   },
   "devDependencies": {
     "buddy.js": "^0.7.x",
-    "chai": "^1.10.0",
-    "chai-as-promised": "^4.1.1",
+    "chai": "^1.x",
+    "chai-as-promised": "^4.x",
     "nsp": "^0.5.x",
     "mocha": "^2.x",
     "istanbul": "^0.3.x",

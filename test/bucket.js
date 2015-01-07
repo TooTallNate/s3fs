@@ -114,5 +114,64 @@
                     return cb.promise;
                 })).to.eventually.be.fulfilled;
         });
+
+        it("should be able to list all the files in a bucket", function () {
+            return expect(s3fsImpl.create()
+                    .then(function() {
+                        return s3fsImpl.mkdir('testDir/')
+                            .then(function() {
+                                return s3fsImpl.writeFile('testDir/test.json', '{}')
+                                    .then(function() {
+                                        return  s3fsImpl.writeFile('testDir/test/test.json', '{}');
+                                    });
+                            })
+                            .then(function() {
+                               return s3fsImpl.mkdir('testDirDos/')
+                                   .then(function() {
+                                      return s3fsImpl.writeFile('testDirDos/test.json', '{}');
+                                   });
+                            });
+                    })
+                    .then(function() {
+                        return s3fsImpl.readdir('/');
+                    })
+            ).to.eventually.satisfy(function(files) {
+                    expect(files).to.have.length(2);
+                    expect(files[0]).to.equal('testDir/');
+                    expect(files[1]).to.equal('testDirDos/');
+                    return true;
+                });
+        });
+
+        it("should be able to list all the files in a bucket with a callback", function () {
+            return expect(s3fsImpl.create()
+                    .then(function() {
+                        return s3fsImpl.mkdir('testDir/')
+                            .then(function() {
+                                return s3fsImpl.writeFile('testDir/test.json', '{}')
+                                    .then(function() {
+                                        return  s3fsImpl.writeFile('testDir/test/test.json', '{}');
+                                    });
+                            })
+                            .then(function() {
+                               return s3fsImpl.mkdir('testDirDos/')
+                                   .then(function() {
+                                      return s3fsImpl.writeFile('testDirDos/test.json', '{}');
+                                   });
+                            });
+                    })
+                    .then(function() {
+                        var cb = cbQ.cb();
+                        s3fsImpl.readdir('/', cb);
+                        return cb.promise;
+                    })
+            ).to.eventually.satisfy(function(files) {
+                    expect(files).to.have.length(2);
+                    expect(files[0]).to.equal('testDir/');
+                    expect(files[1]).to.equal('testDirDos/');
+                    return true;
+                });
+        });
+
     });
 }(require('chai'), require("chai-as-promised"), require('cb-q'), require('../')));

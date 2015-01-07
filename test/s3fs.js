@@ -138,31 +138,6 @@
                 });
         });
 
-        it("should add a directory to the bucket and return a promise", function (done) {
-            s3fsImpl.mkdir('testDirPromise').then(function () {
-                done();
-            }, function (reason) {
-                done(reason);
-            });
-        });
-
-        it("should add a directory to the bucket cb", function (done) {
-            s3fsImpl.mkdir('testDirCb', function (err) {
-                done(err);
-            });
-        });
-
-        it('should be able to tell that a directory exists', function (done) {
-            s3fsImpl.exists('/', function (exists) {
-                try {
-                    exists.should.be.exactly(true);
-                    done();
-                } catch (err) {
-                    done(err);
-                }
-            });
-        });
-
         it("should test that the file exists with promise", function (done) {
             s3fsImpl.exists('testPromise.pdf').then(function (data) {
                 try {
@@ -180,106 +155,6 @@
             s3fsImpl.exists('testPromise.pdf', function (exists) {
                 exists.should.be.exactly(true);
                 done();
-            });
-        });
-
-        it("should list all objects in the bucket with promise", function (done) {
-            s3fsImpl.dstat('/', null).then(function (contents) {
-                try {
-                    contents.should.be.an.instanceof(Array);
-                    contents.should.have.length(4);
-                    done();
-                } catch (err) {
-                    done(err);
-                }
-            }, function (reason) {
-                done(reason);
-            });
-        });
-
-        it("should list all objects in the bucket with cb", function (done) {
-            s3fsImpl.dstat('/', null, function (err, contents) {
-                try {
-                    contents.should.be.an.instanceof(Array);
-                    contents.should.have.length(4);
-                    done(err);
-                } catch (err) {
-                    done(err);
-                }
-            });
-        });
-
-        it("should list all the files in the bucket with promise", function (done) {
-            s3fsImpl.readdir('/').then(function (files) {
-                try {
-                    files.should.be.an.instanceof(Array);
-                    files.should.have.length(6);
-                    done();
-                } catch (err) {
-                    done(err);
-                }
-            }, function (reason) {
-                done(reason);
-            });
-        });
-
-        it("should list all the files in the bucket with cb", function (done) {
-            s3fsImpl.readdir('/', function (err, files) {
-                try {
-                    files.should.be.an.instanceof(Array);
-                    files.should.have.length(6);
-                    done(err);
-                } catch (err) {
-                    done(err);
-                }
-            });
-        });
-
-        it("should list all the files in a directory with a promise", function (done) {
-            Q.all(s3fsImpl.writeFile('testListDirPromise/test.json', '{}'), s3fsImpl.writeFile('testListDirPromise/test/test.json', '{}')).spread(function (test1,
-                                                                                                                                                            test2) {
-                s3fsImpl.readdir('testListDirPromise/').then(function (files) {
-                    try {
-                        files.should.be.an.instanceof(Array);
-                        files.length.should.be.exactly(2);
-                        files[0].should.be.exactly('test.json');
-                        files[1].should.be.exactly('test/');
-                        done();
-                    } catch (err) {
-                        done(err);
-                    }
-                }, function (reason) {
-                    done(reason);
-                });
-            });
-        });
-
-        it("should list all the files in a directory with a callback", function (done) {
-            Q.all(s3fsImpl.writeFile('testListDirPromise/test.json', '{}'), s3fsImpl.writeFile('testListDirPromise/test/test.json', '{}')).spread(function (test1,
-                                                                                                                                                            test2) {
-                s3fsImpl.readdir('testListDirPromise/', function (err, files) {
-                    try {
-                        files.should.be.an.instanceof(Array);
-                        files.length.should.be.exactly(2);
-                        files[0].should.be.exactly('test.json');
-                        files[1].should.be.exactly('test/');
-                        done(err);
-                    } catch (err) {
-                        done(err);
-                    }
-                });
-            });
-        });
-
-        it("should list all the files in a directory with cb", function (done) {
-            s3fsImpl.readdir('/', function (err, files) {
-                try {
-                    files.should.be.an.instanceof(Array);
-                    files.should.have.length(7);
-                    done(err);
-                } catch (err) {
-                    done(err);
-                }
             });
         });
 
@@ -417,26 +292,6 @@
                 });
         });
 
-        it('should retrieve the stats of a directory - lstat(2)', function (done) {
-            s3fsImpl.mkdir('testLStatDirCb/', function (err) {
-                if (err) {
-                    return done(err);
-                }
-
-                s3fsImpl.stat('testLStatDirCb/', function (err, s3Stats) {
-                    if (err) {
-                        return done(err);
-                    }
-                    try {
-                        s3Stats.isDirectory().should.be.true;
-                        done();
-                    } catch (err) {
-                        done(err);
-                    }
-                });
-            });
-        });
-
         it("should retrieve the stats of a file using a callback - stat(2)", function (done) {
             fs.createReadStream('./test/files/test.pdf').pipe(s3fsImpl.createWriteStream('testStatCb.pdf'))
                 .on('finish', function () {
@@ -490,48 +345,6 @@
                 .on('error', function (err) {
                     done(err);
                 });
-        });
-
-        it('should retrieve the stats of a directory using a callback - stat(2)', function (done) {
-            s3fsImpl.mkdir('testStatDirCb/', function (err) {
-                if (err) {
-                    return done(err);
-                }
-
-                s3fsImpl.stat('testStatDirCb/', function (err, s3Stats) {
-                    if (err) {
-                        return done(err);
-                    }
-                    try {
-                        s3Stats.isDirectory().should.be.true;
-                        done();
-                    } catch (err) {
-                        done(err);
-                    }
-                });
-            });
-        });
-
-        it('should retrieve the stats of a directory using a promise - stat(2)', function (done) {
-            s3fsImpl.mkdir('testStatDirPromise/', function (err) {
-                if (err) {
-                    return done(err);
-                }
-
-                s3fsImpl.stat('testStatDirPromise/').then(function (s3Stats) {
-                    if (err) {
-                        return done(err);
-                    }
-                    try {
-                        s3Stats.isDirectory().should.be.true;
-                        done();
-                    } catch (err) {
-                        done(err);
-                    }
-                }, function (reason) {
-                    done(reason);
-                });
-            });
         });
 
         it("should retrieve the stats of a file using a callback - lstat(2)", function (done) {
@@ -589,45 +402,6 @@
                 });
         });
 
-        it('should retrieve the stats of a directory using a callback - lstat(2)', function (done) {
-            s3fsImpl.mkdir('testLStatDirCb/', function (err) {
-                if (err) {
-                    return done(err);
-                }
-
-                s3fsImpl.stat('testLStatDirCb/', function (err, s3Stats) {
-                    if (err) {
-                        return done(err);
-                    }
-                    try {
-                        s3Stats.isDirectory().should.be.true;
-                        done();
-                    } catch (err) {
-                        done(err);
-                    }
-                });
-            });
-        });
-
-        it('should retrieve the stats of a directory using a promise - lstat(2)', function (done) {
-            s3fsImpl.mkdir('testLStatDirPromise/', function (err) {
-                if (err) {
-                    return done(err);
-                }
-
-                s3fsImpl.stat('testLStatDirPromise/').then(function (s3Stats) {
-                    try {
-                        s3Stats.isDirectory().should.be.true;
-                        done();
-                    } catch (err) {
-                        done(err);
-                    }
-                }, function (reason) {
-                    done(reason);
-                });
-            });
-        });
-
         it("should be able to copy a single object with a promise", function (done) {
             s3fsImpl.writeFile('testCopyFilePromise/test.json', '{}').then(function () {
                 s3fsImpl.copyObject('testCopyFilePromise/test.json', 'testCopyFileDestPromise/test2.json').then(function () {
@@ -660,22 +434,6 @@
                 });
             }, function (reason) {
                 done(reason);
-            });
-        });
-
-        it("should list all the files in a directory recursively with callback", function (done) {
-            Q.all(s3fsImpl.writeFile('testCopyDirCb/test.json', '{}'), s3fsImpl.writeFile('testCopyDirCb/test/test.json', '{}')).then(function () {
-                s3fsImpl.readdirp('testCopyDirCb', function (err, files) {
-                    try {
-                        files.should.be.an.instanceof(Array);
-                        files.should.have.length(2);
-                        files[0].should.be.exactly('test.json');
-                        files[1].should.be.exactly('test/test.json');
-                        done(err);
-                    } catch (err) {
-                        done(err);
-                    }
-                });
             });
         });
 
