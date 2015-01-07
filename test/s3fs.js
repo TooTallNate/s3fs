@@ -81,50 +81,6 @@
             });
         });
 
-        it("should remove a directory and return a promise", function (done) {
-            s3fsImpl.rmdir('testDirPromise').then(function () {
-                done();
-            }, function (reason) {
-                done(reason);
-            });
-        });
-
-        it("should remove a directory cb", function (done) {
-            s3fsImpl.rmdir('testDirCb', function (err) {
-                done(err);
-            });
-        });
-
-        it("should delete files in the bucket using promise", function (done) {
-            Q.all(s3fsImpl.writeFile('testDeleteDirFiles/test.json', '{}'), s3fsImpl.writeFile('testDeleteDirFiles/test/test.json', '{}')).spread(function (test1,
-                                                                                                                                                            test2) {
-                s3fsImpl.rmFiles(['testDeleteDirFiles/test.json', 'testDeleteDirFiles/test/test.json']).then(function (files) {
-                    var errors = files.Errors;
-                    (errors.length === 0).should.be.true;
-                    var deleted = files.Deleted;
-                    (deleted.length === 2).should.be.true;
-                    done();
-                }, function (reason) {
-                    done(reason);
-                });
-            });
-        });
-
-        it("should delete files in the bucket using cb", function (done) {
-            Q.all(s3fsImpl.writeFile('testDeleteDirFiles/test.json', '{}'), s3fsImpl.writeFile('testDeleteDirFiles/test/test.json', '{}')).spread(function (test1,
-                                                                                                                                                            test2) {
-                s3fsImpl.rmFiles(['testDeleteDirFiles/test.json', 'testDeleteDirFiles/test/test.json']).then(function (files) {
-                    var errors = files.Errors;
-                    (errors.length === 0).should.be.true;
-                    var deleted = files.Deleted;
-                    (deleted.length === 2).should.be.true;
-                    done();
-                }, function (reason) {
-                    done(reason);
-                });
-            });
-        });
-
         it("should delete a file to the bucket using promise", function (done) {
             s3fsImpl.unlink('testPromise.pdf').then(function (result) {
                 done();
