@@ -81,20 +81,6 @@
             });
         });
 
-        it("should delete a file to the bucket using promise", function (done) {
-            s3fsImpl.unlink('testPromise.pdf').then(function (result) {
-                done();
-            }, function (reason) {
-                done(reason);
-            });
-        });
-
-        it("should delete a file to the bucket using cb", function (done) {
-            s3fsImpl.unlink('testCb.pdf', function (err) {
-                done(err);
-            });
-        });
-
         it("should be able to copy a single object with a promise", function (done) {
             s3fsImpl.writeFile('testCopyFilePromise/test.json', '{}').then(function () {
                 s3fsImpl.copyObject('testCopyFilePromise/test.json', 'testCopyFileDestPromise/test2.json').then(function () {

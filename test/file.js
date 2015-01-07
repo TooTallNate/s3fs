@@ -84,6 +84,30 @@
             ).to.eventually.be.fulfilled;
         });
 
+        it("should be able to delete a file", function () {
+            return expect(s3fsImpl.create()
+                    .then(function () {
+                        return s3fsImpl.writeFile('test-file.json', '{ "test": "test" }');
+                    })
+                    .then(function () {
+                        return s3fsImpl.unlink('test-file.json');
+                    })
+            ).to.eventually.be.fulfilled;
+        });
+
+        it("should be able to delete a file with a callback", function () {
+            return expect(s3fsImpl.create()
+                    .then(function () {
+                        return s3fsImpl.writeFile('test-file.json', '{ "test": "test" }');
+                    })
+                    .then(function () {
+                        var cb = cbQ.cb();
+                        s3fsImpl.unlink('test-file.json', cb);
+                        return cb.promise;
+                    })
+            ).to.eventually.be.fulfilled;
+        });
+
         it("should be able to tell if a file exists with a callback", function () {
             return expect(s3fsImpl.create()
                     .then(function () {
