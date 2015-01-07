@@ -81,59 +81,6 @@
             });
         });
 
-        it("should write a file to the bucket as a stream", function (done) {
-            fs.createReadStream('./test/files/test.pdf').pipe(s3fsImpl.createWriteStream('testStream.pdf'))
-                .on('finish', function () {
-                    done();
-                })
-                .on('error', function (err) {
-                    done(err);
-                });
-        });
-
-        it("should write a large file to the bucket as a stream", function (done) {
-            fs.createReadStream('./test/files/video.mp4').pipe(s3fsImpl.createWriteStream('video.mp4'))
-                .on('finish', function () {
-                    done();
-                })
-                .on('error', function (err) {
-                    done(err);
-                });
-        });
-
-        it("should read the file as a stream", function (done) {
-            s3fsImpl.createReadStream('testStream.pdf')
-                .on('data', function (data) {
-                    //consume the stream
-                })
-                .on('end', function () {
-                    done();
-                })
-                .on('error', function (error) {
-                    done(error);
-                });
-        });
-
-        it("should test that the file exists with promise", function (done) {
-            s3fsImpl.exists('testPromise.pdf').then(function (data) {
-                try {
-                    data.ETag.should.be.exactly('"e5b1c268883f47d891d84d3cad624b3c"');
-                    done();
-                } catch (err) {
-                    done(err);
-                }
-            }, function (reason) {
-                done(reason);
-            });
-        });
-
-        it("should test that the file exists with cb", function (done) {
-            s3fsImpl.exists('testPromise.pdf', function (exists) {
-                exists.should.be.exactly(true);
-                done();
-            });
-        });
-
         it("should remove a directory and return a promise", function (done) {
             s3fsImpl.rmdir('testDirPromise').then(function () {
                 done();

@@ -73,6 +73,33 @@
                 })).to.eventually.be.fulfilled;
         });
 
+        it("should be able to tell if a file exists", function () {
+            return expect(s3fsImpl.create()
+                    .then(function () {
+                        return s3fsImpl.writeFile('test-file.json', '{ "test": "test" }');
+                    })
+                    .then(function () {
+                        return s3fsImpl.exists('test-file.json');
+                    })
+            ).to.eventually.be.fulfilled;
+        });
+
+        it("should be able to tell if a file exists with a callback", function () {
+            return expect(s3fsImpl.create()
+                    .then(function () {
+                        return s3fsImpl.writeFile('test-file.json', '{ "test": "test" }');
+                    })
+                    .then(function () {
+                        //Cannot use cbQ here since it is not the standard err, data callback signature.
+                        var deferred = Q.defer();
+                        s3fsImpl.exists('test-file.json', function(exists) {
+                            deferred.resolve(exists);
+                        });
+                        return deferred.promise;
+                    })
+            ).to.eventually.be.equal(true);
+        });
+
         it("shouldn\'t be able to write a file from an object", function () {
             return expect(s3fsImpl.create()
                 .then(function () {
@@ -153,10 +180,10 @@
                     var deferred = Q.defer();
                     fs.createReadStream('./test/mock/example-file.json')
                         .pipe(s3fsImpl.createWriteStream('test-file.json'))
-                        .on('finish', function() {
+                        .on('finish', function () {
                             deferred.resolve();
                         })
-                        .on('error', function(err) {
+                        .on('error', function (err) {
                             deferred.reject(err);
                         });
                     return deferred.promise;
@@ -169,10 +196,10 @@
                     var deferred = Q.defer();
                     fs.createReadStream('./test/mock/large-file.txt')
                         .pipe(s3fsImpl.createWriteStream('test-file.txt'))
-                        .on('finish', function() {
+                        .on('finish', function () {
                             deferred.resolve();
                         })
-                        .on('error', function(err) {
+                        .on('error', function (err) {
                             deferred.reject(err);
                         });
                     return deferred.promise;
@@ -215,13 +242,6 @@
                 })).to.eventually.be.fulfilled;
         });
 
-        it("should be able to tell if a file exists", function () {
-            return expect(s3fsImpl.create()
-                .then(function () {
-                    return s3fsImpl.writeFile('test-file.json', '{ "test": "test" }');
-                })).to.eventually.be.fulfilled;
-        });
-
         it("should be able to write a file from a string with a callback", function () {
             return expect(s3fsImpl.create()
                 .then(function () {
@@ -229,6 +249,34 @@
                     s3fsImpl.writeFile('test-file.json', '{ "test": "test" }', cb);
                     return cb.promise;
                 })).to.eventually.be.fulfilled;
+        });
+
+        it("should be able to read the file as a stream", function () {
+            return expect(s3fsImpl.create()
+                    .then(function () {
+                        return s3fsImpl.writeFile('test-file.json', '{ "test": "test" }');
+                    })
+                    .then(function () {
+                        var deferred = Q.defer(),
+                            data = '';
+                        try {
+                            s3fsImpl.createReadStream('test-file.json')
+                                .on('data', function (chunk) {
+                                    data += chunk;
+                                })
+                                .on('end', function () {
+                                    expect(data).to.be.equal('{ "test": "test" }');
+                                    deferred.resolve();
+                                })
+                                .on('error', function (err) {
+                                    deferred.reject(err);
+                                });
+                        } catch (err) {
+                            deferred.reject(err);
+                        }
+                        return deferred.promise;
+                    })
+            ).to.eventually.be.fulfilled;
         });
 
     });
