@@ -13,10 +13,6 @@ matrix:
   fast_finish: true
 script: npm test
 after_script: npm run-script inspect
-notifications:
-  email:
-    on_success: change
-    on_failure: change
 addons:
   artifacts:
     key:
