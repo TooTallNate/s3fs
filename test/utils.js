@@ -28,7 +28,7 @@
     chai.use(chaiAsPromised);
     chai.config.includeStack = true;
 
-    describe.only('S3FS Utils', function () {
+    describe('S3FS Utils', function () {
         describe('isAbsolute(path)', function() {
             it('should be able to identify an absolute path of `/`', function () {
                 return expect(fsUtils.isAbsolute('/')).to.be.true;

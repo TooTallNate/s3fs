@@ -4,7 +4,7 @@
  * Copyright (c) 2014 Riptide Software Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
+ * of this software and associated documentation files (the "Software'), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
@@ -28,7 +28,7 @@
     chai.use(chaiAsPromised);
     chai.config.includeStack = true;
 
-    describe('S3FS Files', function () {
+    describe('S3FS Instances', function () {
         var s3Credentials,
             bucketName,
             s3fsImpl;
@@ -62,11 +62,27 @@
             });
         });
 
-        it("should be able to clone s3fs", function () {
+        it('shouldn\'t be able to instaniate S3FS without options', function() {
+            return expect(function() { new s3fs(); }).to.throw(Error, 'options is required');
+        });
+
+        it('shouldn\'t be able to instaniate S3FS without an accessKeyId', function() {
+            return expect(function() { new s3fs({}); }).to.throw(Error, 'accessKeyId is required');
+        });
+
+        it('shouldn\'t be able to instaniate S3FS without a secretAccessKey', function() {
+            return expect(function() { new s3fs({ accessKeyId: 'test' }); }).to.throw(Error, 'secretAccessKey is required');
+        });
+
+        it('shouldn\'t be able to instaniate S3FS without a bucket', function() {
+            return expect(function() { new s3fs({ accessKeyId: 'test', secretAccessKey: 'test' }); }).to.throw(Error, 'bucket is required');
+        });
+
+        it('should be able to clone s3fs', function () {
             return expect(s3fsImpl.clone('imAClone')).to.not.throw;
         });
 
-        it("should be able to clone s3fs then read a file", function () {
+        it('should be able to clone s3fs then read a file', function () {
             return expect(s3fsImpl.create()
                     .then(function () {
                         return s3fsImpl.writeFile('imAClone/test-file.json', '{ "test": "test" }');
@@ -82,4 +98,4 @@
         });
 
     });
-}(require('chai'), require("chai-as-promised"), require('fs'), require('cb-q'), require('q'), require('../')));
+}(require('chai'), require('chai-as-promised'), require('fs'), require('cb-q'), require('q'), require('../')));
