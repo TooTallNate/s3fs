@@ -1,4 +1,4 @@
-(function (chai, chaiAsPromised, fs, cbQ, s3fs) {
+(function (chai, chaiAsPromised, fs, cbQ, Q, s3fs) {
     'use strict';
     var expect = chai.expect;
 
@@ -130,7 +130,6 @@
         });
 
         it("should be able to write a large file from a stream", function () {
-            //TODO: Set this up with a large file.
             var stream = fs.createReadStream('./test/mock/large-file.txt');
             return expect(s3fsImpl.create()
                 .then(function () {
@@ -139,13 +138,44 @@
         });
 
         it("should be able to write a large file from a stream with a callback", function () {
-            //TODO: Set this up with a large file.
             var stream = fs.createReadStream('./test/mock/large-file.txt');
             return expect(s3fsImpl.create()
                 .then(function () {
                     var cb = cbQ.cb();
                     s3fsImpl.writeFile('test-file.json', stream, cb);
                     return cb.promise;
+                })).to.eventually.be.fulfilled;
+        });
+
+        it("should be able to pipe a file from a stream", function () {
+            return expect(s3fsImpl.create()
+                .then(function () {
+                    var deferred = Q.defer();
+                    fs.createReadStream('./test/mock/example-file.json')
+                        .pipe(s3fsImpl.createWriteStream('test-file.json'))
+                        .on('finish', function() {
+                            deferred.resolve();
+                        })
+                        .on('error', function(err) {
+                            deferred.reject(err);
+                        });
+                    return deferred.promise;
+                })).to.eventually.be.fulfilled;
+        });
+
+        it("should be able to pipe a large file from a stream", function () {
+            return expect(s3fsImpl.create()
+                .then(function () {
+                    var deferred = Q.defer();
+                    fs.createReadStream('./test/mock/large-file.txt')
+                        .pipe(s3fsImpl.createWriteStream('test-file.txt'))
+                        .on('finish', function() {
+                            deferred.resolve();
+                        })
+                        .on('error', function(err) {
+                            deferred.reject(err);
+                        });
+                    return deferred.promise;
                 })).to.eventually.be.fulfilled;
         });
 
@@ -185,15 +215,6 @@
                 })).to.eventually.be.fulfilled;
         });
 
-        it("should be able to write a file to the bucket using streams", function (done) {
-                s3fsImpl.create().then(function () {
-                    fs.createReadStream('./test/mock/example-file.json')
-                        .pipe(s3fsImpl.createWriteStream('test-file.json'))
-                        .on('finish', done)
-                        .on('error', done);
-                }, done);
-        });
-
         it("should be able to tell if a file exists", function () {
             return expect(s3fsImpl.create()
                 .then(function () {
@@ -211,4 +232,4 @@
         });
 
     });
-}(require('chai'), require("chai-as-promised"), require('fs'), require('cb-q'), require('../')));
+}(require('chai'), require("chai-as-promised"), require('fs'), require('cb-q'), require('q'), require('../')));
