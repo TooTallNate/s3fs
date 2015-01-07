@@ -39,14 +39,14 @@
             });
         });
 
-        it("should be able to store a file from a string in a bucket", function () {
+        it("should be able to write a file from a string", function () {
             return expect(s3fsImpl.create()
                 .then(function () {
                     return s3fsImpl.writeFile('test-file.json', '{ "test": "test" }');
                 })).to.eventually.be.fulfilled;
         });
 
-        it("should be able to store a file from a string in a bucket with a callback", function () {
+        it("should be able to write a file from a string with a callback", function () {
             return expect(s3fsImpl.create()
                 .then(function () {
                     var cb = cbQ.cb();
@@ -55,14 +55,32 @@
                 })).to.eventually.be.fulfilled;
         });
 
-        it("shouldn\'t be able to store a file from an object in a bucket", function () {
+        it("should be able to write a large file", function () {
+            var largeFile = fs.readFileSync('./test/mock/large-file.txt');
+            return expect(s3fsImpl.create()
+                .then(function () {
+                    return s3fsImpl.writeFile('test-file.json', largeFile);
+                })).to.eventually.be.fulfilled;
+        });
+
+        it("should be able to write a large file with a callback", function () {
+            var largeFile = fs.readFileSync('./test/mock/large-file.txt');
+            return expect(s3fsImpl.create()
+                .then(function () {
+                    var cb = cbQ.cb();
+                    s3fsImpl.writeFile('test-file.json', largeFile, cb);
+                    return cb.promise;
+                })).to.eventually.be.fulfilled;
+        });
+
+        it("shouldn\'t be able to write a file from an object", function () {
             return expect(s3fsImpl.create()
                 .then(function () {
                     return s3fsImpl.writeFile('test-file.json', {"test": "test"});
                 })).to.eventually.be.rejectedWith('Expected params.Body to be a string, Buffer, Stream, Blob, or typed array object');
         });
 
-        it("shouldn\'t be able to store a file from an object in a bucket with a callback", function () {
+        it("shouldn\'t be able to write a file from an object with a callback", function () {
             return expect(s3fsImpl.create()
                 .then(function () {
                     var cb = cbQ.cb();
@@ -71,35 +89,27 @@
                 })).to.eventually.be.rejectedWith('Expected params.Body to be a string, Buffer, Stream, Blob, or typed array object');
         });
 
-        it.skip("should be able to store a file from a buffer in a bucket", function () {
-            //TODO: Get this working.
-            var buffer = new Buffer(),
-                fd = fs.openSync('test/mock/example-file.json', 'r');
-
-            fs.readSync(fd, buffer);
+        it("should be able to write a file from a buffer", function () {
+            var exampleFile = fs.readFileSync('./test/mock/large-file.txt');
 
             return expect(s3fsImpl.create()
                 .then(function () {
-                    return s3fsImpl.writeFile('test-file.json', buffer);
+                    return s3fsImpl.writeFile('test-file.json', exampleFile);
                 })).to.eventually.be.fulfilled;
         });
 
-        it.skip("should be able to store a file from a buffer in a bucket with a callback", function () {
-            //TODO: Get this working.
-            var buffer = new Buffer(),
-                fd = fs.openSync('test/mock/example-file.json', 'r');
-
-            fs.readSync(fd, buffer);
+        it("should be able to write a file from a buffer with a callback", function () {
+            var exampleFile = fs.readFileSync('./test/mock/large-file.txt');
 
             return expect(s3fsImpl.create()
                 .then(function () {
                     var cb = cbQ.cb();
-                    s3fsImpl.writeFile('test-file.json', buffer, cb);
+                    s3fsImpl.writeFile('test-file.json', exampleFile, cb);
                     return cb.promise;
                 })).to.eventually.be.fulfilled;
         });
 
-        it("should be able to store a file from a stream in a bucket", function () {
+        it("should be able to write a file from a stream", function () {
             var stream = fs.createReadStream('./test/mock/example-file.json');
 
             return expect(s3fsImpl.create()
@@ -108,7 +118,7 @@
                 })).to.eventually.be.fulfilled;
         });
 
-        it("should be able to store a file from a stream in a bucket with a callback", function () {
+        it("should be able to write a file from a stream with a callback", function () {
             var stream = fs.createReadStream('./test/mock/example-file.json');
 
             return expect(s3fsImpl.create()
@@ -119,7 +129,27 @@
                 })).to.eventually.be.fulfilled;
         });
 
-        it.skip("should be able to store a file from a blob in a bucket", function () {
+        it("should be able to write a large file from a stream", function () {
+            //TODO: Set this up with a large file.
+            var stream = fs.createReadStream('./test/mock/large-file.txt');
+            return expect(s3fsImpl.create()
+                .then(function () {
+                    return s3fsImpl.writeFile('test-file.json', stream);
+                })).to.eventually.be.fulfilled;
+        });
+
+        it("should be able to write a large file from a stream with a callback", function () {
+            //TODO: Set this up with a large file.
+            var stream = fs.createReadStream('./test/mock/large-file.txt');
+            return expect(s3fsImpl.create()
+                .then(function () {
+                    var cb = cbQ.cb();
+                    s3fsImpl.writeFile('test-file.json', stream, cb);
+                    return cb.promise;
+                })).to.eventually.be.fulfilled;
+        });
+
+        it.skip("should be able to write a file from a blob", function () {
             //TODO: Get this setup
             return expect(s3fsImpl.create()
                 .then(function () {
@@ -127,7 +157,7 @@
                 })).to.eventually.be.fulfilled;
         });
 
-        it.skip("should be able to store a file from a blob in a bucket with a callback", function () {
+        it.skip("should be able to write a file from a blob with a callback", function () {
             //TODO: Get this setup
             return expect(s3fsImpl.create()
                 .then(function () {
@@ -137,7 +167,7 @@
                 })).to.eventually.be.fulfilled;
         });
 
-        it.skip("should be able to store a file from a typed array in a bucket", function () {
+        it.skip("should be able to write a file from a typed array", function () {
             //TODO: Get this setup
             return expect(s3fsImpl.create()
                 .then(function () {
@@ -145,7 +175,7 @@
                 })).to.eventually.be.fulfilled;
         });
 
-        it.skip("should be able to store a file from a typed array in a bucket with a callback", function () {
+        it.skip("should be able to write a file from a typed array with a callback", function () {
             //TODO: Get this setup
             return expect(s3fsImpl.create()
                 .then(function () {
@@ -171,7 +201,7 @@
                 })).to.eventually.be.fulfilled;
         });
 
-        it("should be able to store a file from a string in a bucket with a callback", function () {
+        it("should be able to write a file from a string with a callback", function () {
             return expect(s3fsImpl.create()
                 .then(function () {
                     var cb = cbQ.cb();

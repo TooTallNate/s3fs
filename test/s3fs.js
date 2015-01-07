@@ -81,30 +81,6 @@
             });
         });
 
-        it("should add a file to the bucket using promise", function (done) {
-            fs.readFile('./test/files/test.pdf', function (err, data) {
-                if (err) {
-                    return done(err);
-                }
-                s3fsImpl.writeFile('testPromise.pdf', data).then(function (result) {
-                    done();
-                }, function (reason) {
-                    done(reason);
-                });
-            });
-        });
-
-        it("should add a file to the bucket using cb", function (done) {
-            fs.readFile('./test/files/test.pdf', function (err, data) {
-                if (err) {
-                    return done(err);
-                }
-                s3fsImpl.writeFile('testCb.pdf', data, function (err) {
-                    done(err);
-                });
-            });
-        });
-
         it("should write a file to the bucket as a stream", function (done) {
             fs.createReadStream('./test/files/test.pdf').pipe(s3fsImpl.createWriteStream('testStream.pdf'))
                 .on('finish', function () {
