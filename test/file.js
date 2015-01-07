@@ -84,6 +84,54 @@
             ).to.eventually.be.fulfilled;
         });
 
+        it("should be able to copy an object", function () {
+            return expect(s3fsImpl.create()
+                    .then(function() {
+                        return s3fsImpl.writeFile('test-file.json', '{}');
+                    })
+                    .then(function() {
+                        return s3fsImpl.copyObject('test-file.json', 'test-file-dos.json');
+                    })
+            ).to.eventually.be.fulfilled;
+        });
+
+        it("should be able to copy an object with a callback", function () {
+            return expect(s3fsImpl.create()
+                    .then(function() {
+                        return s3fsImpl.writeFile('test-file.json', '{}');
+                    })
+                    .then(function() {
+                        var cb = cbQ.cb();
+                        s3fsImpl.copyObject('test-file.json', 'test-file-dos.json', cb);
+                        return cb.promise;
+                    })
+            ).to.eventually.be.fulfilled;
+        });
+
+        it("should be able to get the head of an object", function () {
+            return expect(s3fsImpl.create()
+                    .then(function() {
+                        return s3fsImpl.writeFile('test-file.json', '{}');
+                    })
+                    .then(function() {
+                        return s3fsImpl.headObject('test-file.json');
+                    })
+            ).to.eventually.be.fulfilled;
+        });
+
+        it("should be able to get the head of an object with a callback", function () {
+            return expect(s3fsImpl.create()
+                    .then(function() {
+                        return s3fsImpl.writeFile('test-file.json', '{}');
+                    })
+                    .then(function() {
+                        var cb = cbQ.cb();
+                        s3fsImpl.headObject('test-file.json', cb);
+                        return cb.promise;
+                    })
+            ).to.eventually.be.fulfilled;
+        });
+
         it("should be able to delete a file", function () {
             return expect(s3fsImpl.create()
                     .then(function () {

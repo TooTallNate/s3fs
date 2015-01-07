@@ -81,67 +81,6 @@
             });
         });
 
-        it("should be able to copy a single object with a promise", function (done) {
-            s3fsImpl.writeFile('testCopyFilePromise/test.json', '{}').then(function () {
-                s3fsImpl.copyObject('testCopyFilePromise/test.json', 'testCopyFileDestPromise/test2.json').then(function () {
-                    s3fsImpl.exists('testCopyFileDestPromise/test2.json').then(function (exists) {
-                        if (!exists) {
-                            return done(new Error('File Not Exist'));
-                        }
-                        done();
-                    });
-                }, function (reason) {
-                    done(reason);
-                });
-            }, function (reason) {
-                done(reason);
-            });
-        });
-
-        it("should be able to copy a single object with a callback", function (done) {
-            s3fsImpl.writeFile('testCopyFileCb/test.json', '{}').then(function () {
-                s3fsImpl.copyObject('testCopyFileCb/test.json', 'testCopyFileDestCb/test2.json', function (err) {
-                    if (err) {
-                        return done(err);
-                    }
-                    s3fsImpl.exists('testCopyFileDestCb/test2.json').then(function (exists) {
-                        if (!exists) {
-                            return done(new Error('File Not Exist'));
-                        }
-                        done();
-                    });
-                });
-            }, function (reason) {
-                done(reason);
-            });
-        });
-
-        it("should be able to get the head of an object with promise", function (done) {
-            s3fsImpl.writeFile('headTestPromise.json', '{}').then(function () {
-                s3fsImpl.headObject('headTestPromise.json').then(function (data) {
-                    data.ETag.should.be.exactly('"99914b932bd37a50b983c5e7c90ae93b"');
-                    data.ContentLength.should.be.exactly('2');
-                    done();
-                }, function (reason) {
-                    done(reason);
-                });
-            });
-        });
-
-        it("should be able to get the head of an object with callback", function (done) {
-            s3fsImpl.writeFile('headTestCb.json', '{}').then(function () {
-                s3fsImpl.headObject('headTestCb.json', function (err, data) {
-                    try {
-                        data.ETag.should.be.exactly('"99914b932bd37a50b983c5e7c90ae93b"');
-                        data.ContentLength.should.be.exactly('2');
-                        done(err);
-                    } catch (err) {
-                        done(err);
-                    }
-                });
-            });
-        });
-
         it("should be able to clone s3fs", function (done) {
             s3fsImpl.writeFile('clone/test.json', '{}').then(function () {
                 var s3fsClone = s3fsImpl.clone('clone');
