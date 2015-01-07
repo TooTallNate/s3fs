@@ -28,7 +28,7 @@
     chai.use(chaiAsPromised);
     chai.config.includeStack = true;
 
-    describe.only('S3FS Stats', function () {
+    describe('S3FS Stats', function () {
 
         it('should be able create an object', function () {
             return expect(new Stats()).to.not.throw;
