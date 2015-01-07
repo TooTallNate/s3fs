@@ -97,5 +97,8 @@ This will create files with the results in the `reports` directory.
 * Eat more cookies
 * Move over to `cb-q` to simplify supporting promises and callbacks
 
+## License
+[MIT](LICENSE)
+
 ## Copyright
-> Copyright (c) 2014 Riptide Software
+> Copyright (c) 2014 Riptide Software Inc.
