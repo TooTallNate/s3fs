@@ -66,6 +66,21 @@
             return expect(s3fsImpl.create()).to.eventually.be.fulfilled;
         });
 
+        it('shouldn\'t received an error when creating a duplicate bucket owned by the same account', function () {
+            return expect(s3fsImpl.create()
+                    .then(function() {
+                        return s3fsImpl.create();
+                    })
+            ).to.eventually.be.fulfilled;
+        });
+
+        it.skip('shouldn\'t be able to create a bucket with an invalid name', function () {
+            // See: http://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html
+            //TODO: Even though this is an invalid bucketname the AWS SDK still lets you create it.
+            s3fsImpl = new s3fs(s3Credentials, new Array(64).join('asdf'));
+            return expect(s3fsImpl.create()).to.eventually.be.rejectedWith('asdf');
+        });
+
         it('should be able to create a new bucket with options', function () {
             return expect(s3fsImpl.create({})).to.eventually.be.fulfilled;
         });
