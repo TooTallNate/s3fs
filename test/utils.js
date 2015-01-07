@@ -29,7 +29,7 @@
     chai.config.includeStack = true;
 
     describe('S3FS Utils', function () {
-        describe('isAbsolute(path)', function() {
+        describe('isAbsolute(path)', function () {
             it('should be able to identify an absolute path of `/`', function () {
                 return expect(fsUtils.isAbsolute('/')).to.be.true;
             });
@@ -43,13 +43,13 @@
                 return expect(fsUtils.isAbsolute('asdf')).to.be.false;
             });
         });
-        describe('normalizePath(path)', function() {
-           it('should be able to normalize a path', function() {
-               return expect(fsUtils.normalizePath('qwerty///asdf.txt')).to.be.equal('qwerty/asdf.txt');
-           });
-           it('should be able to normalize an absolute path', function() {
-               return expect(fsUtils.normalizePath('/qwerty///asdf.txt')).to.be.equal('/qwerty/asdf.txt');
-           });
+        describe('normalizePath(path)', function () {
+            it('should be able to normalize a path', function () {
+                return expect(fsUtils.normalizePath('qwerty///asdf.txt')).to.be.equal('qwerty/asdf.txt');
+            });
+            it('should be able to normalize an absolute path', function () {
+                return expect(fsUtils.normalizePath('/qwerty///asdf.txt')).to.be.equal('/qwerty/asdf.txt');
+            });
         });
     });
 }(require('chai'), require('chai-as-promised'), require('../lib/utils')));

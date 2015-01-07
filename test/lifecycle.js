@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-(function (chai, chaiAsPromised, cbQ, s3fs) {
+(function (chai, chaiAsPromised, cbQ, S3FS) {
     'use strict';
     var expect = chai.expect;
 
@@ -46,7 +46,7 @@
                 region: process.env.AWS_REGION
             };
             bucketName = 's3fs-test-bucket-' + (Math.random() + '').slice(2, 8);
-            s3fsImpl = new s3fs(s3Credentials, bucketName);
+            s3fsImpl = new S3FS(s3Credentials, bucketName);
         });
 
         afterEach(function (done) {
@@ -92,7 +92,7 @@
             return expect(s3fsImpl.create()
                 .then(function () {
                     return s3fsImpl.putBucketLifecycle('test-expiration-lifecycle', prefix, initialDays)
-                        .then(function() {
+                        .then(function () {
                             return s3fsImpl.putBucketLifecycle('test-expiration-lifecycle', prefix, finalDays);
                         });
                 })).to.eventually.be.fulfilled;
@@ -106,7 +106,7 @@
             return expect(s3fsImpl.create()
                 .then(function () {
                     return s3fsImpl.putBucketLifecycle('test-expiration-lifecycle', prefix, initialDays)
-                        .then(function() {
+                        .then(function () {
                             var cb = cbQ.cb();
                             s3fsImpl.putBucketLifecycle('test-expiration-lifecycle', prefix, finalDays, cb);
                             return cb.promise;
@@ -115,4 +115,4 @@
         });
 
     });
-}(require('chai'), require("chai-as-promised"), require('cb-q'), require('../')));
+}(require('chai'), require('chai-as-promised'), require('cb-q'), require('../')));

@@ -35,47 +35,49 @@
         });
 
         it('should be able create an object without `new`', function () {
-            return expect(Stats()).to.not.throw;
+            return expect(new Stats()).to.not.throw;
         });
 
         it('shouldn\'t be able create an object without an object', function () {
-            return expect(function() { Stats.create(''); }).to.throw('object is required to create a Stats');
+            return expect(function () {
+                Stats.create('');
+            }).to.throw('object is required to create a Stats');
         });
 
         it('should be able to check if the object is for a directory', function () {
-            return expect(Stats({ path: '/' }).isDirectory()).to.be.true;
+            return expect(new Stats({path: '/'}).isDirectory()).to.be.true;
         });
 
         it('shouldn\'t consider a file to be a directory', function () {
-            return expect(Stats({ path: '/asdf.txt' }).isDirectory()).to.be.false;
+            return expect(new Stats({path: '/asdf.txt'}).isDirectory()).to.be.false;
         });
 
         it('should be able to check if the object is for a file', function () {
-            return expect(Stats({ path: '/asdf.txt' }).isFile()).to.be.true;
+            return expect(new Stats({path: '/asdf.txt'}).isFile()).to.be.true;
         });
 
         it('shouldn\'t consider a directory to be a file', function () {
-            return expect(Stats({ path: '/' }).isFile()).to.be.false;
+            return expect(new Stats({path: '/'}).isFile()).to.be.false;
         });
 
         it('should be able to check if the object is a block device', function () {
-            return expect(Stats({ path: '/' }).isBlockDevice()).to.be.false;
+            return expect(new Stats({path: '/'}).isBlockDevice()).to.be.false;
         });
 
         it('should be able to check if the object is a character device', function () {
-            return expect(Stats({ path: '/' }).isCharacterDevice()).to.be.false;
+            return expect(new Stats({path: '/'}).isCharacterDevice()).to.be.false;
         });
 
         it('should be able to check if the object is a symbolic link', function () {
-            return expect(Stats({ path: '/' }).isSymbolicLink()).to.be.false;
+            return expect(new Stats({path: '/'}).isSymbolicLink()).to.be.false;
         });
 
         it('should be able to check if the object is FIFO', function () {
-            return expect(Stats({ path: '/' }).isFIFO()).to.be.false;
+            return expect(new Stats({path: '/'}).isFIFO()).to.be.false;
         });
 
         it('should be able to check if the object is a socket', function () {
-            return expect(Stats({ path: '/' }).isSocket()).to.be.false;
+            return expect(new Stats({path: '/'}).isSocket()).to.be.false;
         });
 
     });

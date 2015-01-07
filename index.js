@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-(function(module, s3fs) {
+(function (module, s3fs) {
+    'use strict';
     module.exports = s3fs;
 }(module, require('./lib/s3fs')));

@@ -1,7 +1,11 @@
 {
   "enforceConst": false,
   "ignore": [
-    0
+    0,
+    1,
+    2,
+    3,
+    8
   ],
   "reporter": "simple"
 }

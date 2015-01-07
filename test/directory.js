@@ -21,11 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-(function (chai, chaiAsPromised, cbQ, s3fs) {
+(function (chai, chaiAsPromised, dirtyChai, cbQ, S3FS) {
     'use strict';
     var expect = chai.expect;
 
     chai.use(chaiAsPromised);
+    chai.use(dirtyChai);
     chai.config.includeStack = true;
 
     describe('S3FS Directories', function () {
@@ -46,7 +47,7 @@
                 region: process.env.AWS_REGION
             };
             bucketName = 's3fs-test-bucket-' + (Math.random() + '').slice(2, 8);
-            s3fsImpl = new s3fs(s3Credentials, bucketName);
+            s3fsImpl = new S3FS(s3Credentials, bucketName);
         });
 
         afterEach(function (done) {
@@ -62,14 +63,14 @@
             });
         });
 
-        it("should be able to create a directory", function () {
+        it('should be able to create a directory', function () {
             return expect(s3fsImpl.create()
                 .then(function () {
                     return s3fsImpl.mkdir('testDir');
                 })).to.eventually.be.fulfilled;
         });
 
-        it("should be able to create a directory with a callback", function () {
+        it('should be able to create a directory with a callback', function () {
             return expect(s3fsImpl.create()
                 .then(function () {
                     var cb = cbQ.cb();
@@ -121,7 +122,7 @@
                 })).to.eventually.be.equal(true);
         });
 
-        it("should be able to remove an empty directory", function () {
+        it('should be able to remove an empty directory', function () {
             return expect(s3fsImpl.create()
                     .then(function () {
                         return s3fsImpl.mkdir('testDir');
@@ -132,7 +133,7 @@
             ).to.eventually.be.fulfilled;
         });
 
-        it("should be able to remove an empty directory with a callback", function () {
+        it('should be able to remove an empty directory with a callback', function () {
             return expect(s3fsImpl.create()
                     .then(function () {
                         return s3fsImpl.mkdir('testDir');
@@ -145,13 +146,13 @@
             ).to.eventually.be.fulfilled;
         });
 
-        it("should be able to remove a non-empty directory", function () {
+        it('should be able to remove a non-empty directory', function () {
             return expect(s3fsImpl.create()
                     .then(function () {
                         return s3fsImpl.mkdir('testDir')
-                            .then(function() {
+                            .then(function () {
                                 return s3fsImpl.writeFile('testDir/test.json', '{}');
-                            })
+                            });
                     })
                     .then(function () {
                         return s3fsImpl.rmdir('testDir');
@@ -159,13 +160,13 @@
             ).to.eventually.be.fulfilled;
         });
 
-        it("should be able to remove a non-empty directory with a callback", function () {
+        it('should be able to remove a non-empty directory with a callback', function () {
             return expect(s3fsImpl.create()
                     .then(function () {
                         return s3fsImpl.mkdir('testDir')
-                            .then(function() {
+                            .then(function () {
                                 return s3fsImpl.writeFile('testDir/test.json', '{}');
-                            })
+                            });
                     })
                     .then(function () {
                         var cb = cbQ.cb();
@@ -175,7 +176,7 @@
             ).to.eventually.be.fulfilled;
         });
 
-        it("should be able to copy a directory recursively", function () {
+        it('should be able to copy a directory recursively', function () {
             return expect(s3fsImpl.create()
                     .then(function () {
                         return s3fsImpl.writeFile('testDir/test.json', '{}')
@@ -197,7 +198,7 @@
                 });
         });
 
-        it("should be able to copy a directory recursively with a promise", function () {
+        it('should be able to copy a directory recursively with a promise', function () {
             return expect(s3fsImpl.create()
                     .then(function () {
                         return s3fsImpl.writeFile('testDir/test.json', '{}')
@@ -221,7 +222,7 @@
                 });
         });
 
-        it("should be able to delete a directory recursively", function () {
+        it('should be able to delete a directory recursively', function () {
             return expect(s3fsImpl.create()
                     .then(function () {
                         return s3fsImpl.writeFile('testDir/test.json', '{}')
@@ -229,14 +230,14 @@
                                 return s3fsImpl.writeFile('testDir/test/test.json', '{}')
                                     .then(function () {
                                         return s3fsImpl.writeFile('testDir/test/test/test.json', '{}');
-                                    })
+                                    });
                             })
                             .then(function () {
                                 return s3fsImpl.rmdirp('testDir/test')
                                     .then(function () {
                                         return s3fsImpl.readdir('testDir');
-                                    })
-                            })
+                                    });
+                            });
                     })
             ).to.eventually.satisfy(function (files) {
                     expect(files).to.have.length(1);
@@ -245,7 +246,7 @@
                 });
         });
 
-        it("should be able to delete a directory recursively with a callback", function () {
+        it('should be able to delete a directory recursively with a callback', function () {
             return expect(s3fsImpl.create()
                     .then(function () {
                         return s3fsImpl.writeFile('testDir/test.json', '{}')
@@ -253,7 +254,7 @@
                                 return s3fsImpl.writeFile('testDir/test/test.json', '{}')
                                     .then(function () {
                                         return s3fsImpl.writeFile('testDir/test/test/test.json', '{}');
-                                    })
+                                    });
                             })
                             .then(function () {
                                 return s3fsImpl.rmdirp('testDir/test')
@@ -261,8 +262,8 @@
                                         var cb = cbQ.cb();
                                         s3fsImpl.readdir('testDir', cb);
                                         return cb.promise;
-                                    })
-                            })
+                                    });
+                            });
                     })
             ).to.eventually.satisfy(function (files) {
                     expect(files).to.have.length(1);
@@ -271,7 +272,7 @@
                 });
         });
 
-        it("should list all the files in a directory recursively", function () {
+        it('should list all the files in a directory recursively', function () {
             return expect(s3fsImpl.create()
                     .then(function () {
                         return s3fsImpl.writeFile('testDir/test.json', '{}')
@@ -280,7 +281,7 @@
                             })
                             .then(function () {
                                 return s3fsImpl.readdirp('testDir');
-                            })
+                            });
                     })
             ).to.eventually.satisfy(function (files) {
                     expect(files).to.have.length(2);
@@ -290,7 +291,7 @@
                 });
         });
 
-        it("should list all the files in a directory recursively with a callback", function () {
+        it('should list all the files in a directory recursively with a callback', function () {
             return expect(s3fsImpl.create()
                     .then(function () {
                         return s3fsImpl.writeFile('testDir/test.json', '{}')
@@ -301,7 +302,7 @@
                                 var cb = cbQ.cb();
                                 s3fsImpl.readdirp('testDir', cb);
                                 return cb.promise;
-                            })
+                            });
                     })
             ).to.eventually.satisfy(function (files) {
                     expect(files).to.have.length(2);
@@ -320,7 +321,7 @@
                         return s3fsImpl.stat('testDir/');
                     })
             ).to.eventually.satisfy(function (stats) {
-                    expect(stats.isDirectory()).to.be.true;
+                    expect(stats.isDirectory()).to.be.true();
                     return true;
                 });
         });
@@ -336,7 +337,7 @@
                         return cb.promise;
                     })
             ).to.eventually.satisfy(function (stats) {
-                    expect(stats.isDirectory()).to.be.true;
+                    expect(stats.isDirectory()).to.be.true();
                     return true;
                 });
         });
@@ -350,7 +351,7 @@
                         return s3fsImpl.lstat('testDir/');
                     })
             ).to.eventually.satisfy(function (stats) {
-                    expect(stats.isDirectory()).to.be.true;
+                    expect(stats.isDirectory()).to.be.true();
                     return true;
                 });
         });
@@ -366,12 +367,12 @@
                         return cb.promise;
                     })
             ).to.eventually.satisfy(function (stats) {
-                    expect(stats.isDirectory()).to.be.true;
+                    expect(stats.isDirectory()).to.be.true();
                     return true;
                 });
         });
 
-        it("should list all the files in a directory", function () {
+        it('should list all the files in a directory', function () {
             return expect(s3fsImpl.create()
                     .then(function () {
                         return s3fsImpl.mkdir('testDir/')
@@ -380,7 +381,7 @@
                                     .then(function () {
                                         return s3fsImpl.writeFile('testDir/test/test.json', '{}');
                                     });
-                            })
+                            });
                     })
                     .then(function () {
                         return s3fsImpl.readdir('testDir/');
@@ -393,7 +394,7 @@
                 });
         });
 
-        it("should list all the files in a directory with a callback", function () {
+        it('should list all the files in a directory with a callback', function () {
             return expect(s3fsImpl.create()
                     .then(function () {
                         return s3fsImpl.mkdir('testDir/')
@@ -402,7 +403,7 @@
                                     .then(function () {
                                         return s3fsImpl.writeFile('testDir/test/test.json', '{}');
                                     });
-                            })
+                            });
                     })
                     .then(function () {
                         var cb = cbQ.cb();
@@ -417,7 +418,7 @@
                 });
         });
 
-        it("should be able to list all objects in a directory", function () {
+        it('should be able to list all objects in a directory', function () {
             return expect(s3fsImpl.create()
                     .then(function () {
                         return s3fsImpl.mkdir('testDir/')
@@ -426,7 +427,7 @@
                                     .then(function () {
                                         return s3fsImpl.writeFile('testDir/test/test.json', '{}');
                                     });
-                            })
+                            });
                     })
                     .then(function () {
                         return s3fsImpl.listContents('testDir/');
@@ -439,7 +440,7 @@
                 });
         });
 
-        it("should be able to list all objects in a directory with a callback", function () {
+        it('should be able to list all objects in a directory with a callback', function () {
             return expect(s3fsImpl.create()
                     .then(function () {
                         return s3fsImpl.mkdir('testDir/')
@@ -448,7 +449,7 @@
                                     .then(function () {
                                         return s3fsImpl.writeFile('testDir/test/test.json', '{}');
                                     });
-                            })
+                            });
                     })
                     .then(function () {
                         var cb = cbQ.cb();
@@ -464,4 +465,4 @@
         });
 
     });
-}(require('chai'), require("chai-as-promised"), require('cb-q'), require('../')));
+}(require('chai'), require('chai-as-promised'), require('dirty-chai'), require('cb-q'), require('../')));

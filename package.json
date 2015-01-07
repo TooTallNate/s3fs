@@ -39,13 +39,15 @@
   "dependencies": {
     "aws-sdk": "^2.x",
     "cb-q": "0.0.2",
+    "dirty-chai": "0.0.2",
     "extend": "^2.x",
     "q": "^1.x"
   },
   "devDependencies": {
     "buddy.js": "^0.7.x",
-    "chai": "^1.x",
+    "chai": "<1.10",
     "chai-as-promised": "^4.x",
+    "dirty-chai": "^0.0.1",
     "nsp": "^0.5.x",
     "mocha": "^2.x",
     "istanbul": "^0.3.x",

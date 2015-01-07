@@ -34,13 +34,17 @@
             'exists', 'stat', 'lstat'
         ];
 
-        function FarceFS() {}
+        function FarceFS() {
+        }
+
         util.inherits(FarceFS, fsInterface);
 
-        methodsToTest.forEach(function(method) {
-           it('should include method ' + method, function() {
-              return expect(function() { new FarceFS()[method](); }).to.throw(util.format('function %s not implemented', method));
-           });
+        methodsToTest.forEach(function (method) {
+            it('should include method ' + method, function () {
+                return expect(function () {
+                    new FarceFS()[method]();
+                }).to.throw(util.format('function %s not implemented', method));
+            });
         });
     });
 }(require('chai'), require('chai-as-promised'), require('../lib/fsInterface'), require('util')));

@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-(function (chai, chaiAsPromised, cbQ, s3fs) {
+(function (chai, chaiAsPromised, cbQ, S3FS) {
     'use strict';
     var expect = chai.expect;
 
@@ -46,7 +46,7 @@
                 region: process.env.AWS_REGION
             };
             bucketName = 's3fs-test-bucket-' + (Math.random() + '').slice(2, 8);
-            s3fsImpl = new s3fs(s3Credentials, bucketName);
+            s3fsImpl = new S3FS(s3Credentials, bucketName);
         });
 
         afterEach(function (done) {
@@ -68,7 +68,7 @@
 
         it('shouldn\'t received an error when creating a duplicate bucket owned by the same account', function () {
             return expect(s3fsImpl.create()
-                    .then(function() {
+                    .then(function () {
                         return s3fsImpl.create();
                     })
             ).to.eventually.be.fulfilled;
@@ -77,7 +77,8 @@
         it.skip('shouldn\'t be able to create a bucket with an invalid name', function () {
             // See: http://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html
             //TODO: Even though this is an invalid bucketname the AWS SDK still lets you create it.
-            s3fsImpl = new s3fs(s3Credentials, new Array(64).join('asdf'));
+            var bucketMaxLength = 64;
+            s3fsImpl = new S3FS(s3Credentials, new Array(bucketMaxLength).join('asdf'));
             return expect(s3fsImpl.create()).to.eventually.be.rejectedWith('asdf');
         });
 
@@ -121,7 +122,7 @@
                     return s3fsImpl.writeFile('test', 'test')
                         .then(function () {
                             return s3fsImpl.delete();
-                        })
+                        });
                 })).to.eventually.be.rejectedWith(Error, 'The bucket you tried to delete is not empty');
         });
 
@@ -133,14 +134,14 @@
                             var cb = cbQ.cb();
                             s3fsImpl.delete(cb);
                             return cb.promise;
-                        })
+                        });
                 })).to.eventually.be.rejectedWith(Error, 'The bucket you tried to delete is not empty');
         });
 
         it('should be able to destroy bucket', function () {
             return expect(s3fsImpl.create()
                 .then(function () {
-                    return s3fsImpl.destroy()
+                    return s3fsImpl.destroy();
                 })).to.eventually.be.fulfilled;
         });
 
@@ -153,27 +154,27 @@
                 })).to.eventually.be.fulfilled;
         });
 
-        it("should be able to list all the files in a bucket", function () {
+        it('should be able to list all the files in a bucket', function () {
             return expect(s3fsImpl.create()
-                    .then(function() {
+                    .then(function () {
                         return s3fsImpl.mkdir('testDir/')
-                            .then(function() {
+                            .then(function () {
                                 return s3fsImpl.writeFile('testDir/test.json', '{}')
-                                    .then(function() {
-                                        return  s3fsImpl.writeFile('testDir/test/test.json', '{}');
+                                    .then(function () {
+                                        return s3fsImpl.writeFile('testDir/test/test.json', '{}');
                                     });
                             })
-                            .then(function() {
-                               return s3fsImpl.mkdir('testDirDos/')
-                                   .then(function() {
-                                      return s3fsImpl.writeFile('testDirDos/test.json', '{}');
-                                   });
+                            .then(function () {
+                                return s3fsImpl.mkdir('testDirDos/')
+                                    .then(function () {
+                                        return s3fsImpl.writeFile('testDirDos/test.json', '{}');
+                                    });
                             });
                     })
-                    .then(function() {
+                    .then(function () {
                         return s3fsImpl.readdir('/');
                     })
-            ).to.eventually.satisfy(function(files) {
+            ).to.eventually.satisfy(function (files) {
                     expect(files).to.have.length(2);
                     expect(files[0]).to.equal('testDir/');
                     expect(files[1]).to.equal('testDirDos/');
@@ -181,29 +182,29 @@
                 });
         });
 
-        it("should be able to list all the files in a bucket with a callback", function () {
+        it('should be able to list all the files in a bucket with a callback', function () {
             return expect(s3fsImpl.create()
-                    .then(function() {
+                    .then(function () {
                         return s3fsImpl.mkdir('testDir/')
-                            .then(function() {
+                            .then(function () {
                                 return s3fsImpl.writeFile('testDir/test.json', '{}')
-                                    .then(function() {
-                                        return  s3fsImpl.writeFile('testDir/test/test.json', '{}');
+                                    .then(function () {
+                                        return s3fsImpl.writeFile('testDir/test/test.json', '{}');
                                     });
                             })
-                            .then(function() {
-                               return s3fsImpl.mkdir('testDirDos/')
-                                   .then(function() {
-                                      return s3fsImpl.writeFile('testDirDos/test.json', '{}');
-                                   });
+                            .then(function () {
+                                return s3fsImpl.mkdir('testDirDos/')
+                                    .then(function () {
+                                        return s3fsImpl.writeFile('testDirDos/test.json', '{}');
+                                    });
                             });
                     })
-                    .then(function() {
+                    .then(function () {
                         var cb = cbQ.cb();
                         s3fsImpl.readdir('/', cb);
                         return cb.promise;
                     })
-            ).to.eventually.satisfy(function(files) {
+            ).to.eventually.satisfy(function (files) {
                     expect(files).to.have.length(2);
                     expect(files[0]).to.equal('testDir/');
                     expect(files[1]).to.equal('testDirDos/');
@@ -212,4 +213,4 @@
         });
 
     });
-}(require('chai'), require("chai-as-promised"), require('cb-q'), require('../')));
+}(require('chai'), require('chai-as-promised'), require('cb-q'), require('../')));
