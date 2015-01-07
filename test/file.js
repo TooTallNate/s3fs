@@ -404,6 +404,30 @@
                 });
         });
 
+        it("shouldn\'t be able to retrieve the stats of a file that doesn\'t exist - stat(2)", function () {
+            return expect(s3fsImpl.create()
+                    .then(function () {
+                        return s3fsImpl.writeFile('test-file.json', '{ "test": "test" }');
+                    })
+                    .then(function () {
+                        return s3fsImpl.stat('test-file-no-exist.json');
+                    })
+            ).to.eventually.be.rejectedWith(Error, 'NotFound');
+        });
+
+        it("shouldn\'t be able to retrieve the stats of a file that doesn\'t exist with a callback - stat(2)", function () {
+            return expect(s3fsImpl.create()
+                    .then(function () {
+                        return s3fsImpl.writeFile('test-file.json', '{ "test": "test" }');
+                    })
+                    .then(function () {
+                        var cb = cbQ.cb();
+                        s3fsImpl.stat('test-file-no-exist.json', cb);
+                        return cb.promise;
+                    })
+            ).to.eventually.be.rejectedWith(Error, 'NotFound');
+        });
+
         it("should be able to retrieve the stats of a file - lstat(2)", function () {
             return expect(s3fsImpl.create()
                     .then(function () {
