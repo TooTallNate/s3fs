@@ -1,6 +1,7 @@
 # S3FS
 [![Build Status](https://travis-ci.org/RiptideCloud/s3fs.svg?branch=master)](https://travis-ci.org/RiptideCloud/s3fs)
 [![Coverage Status](https://img.shields.io/coveralls/RiptideCloud/s3fs.svg)](https://coveralls.io/r/RiptideCloud/s3fs)
+[![Code Climate](https://codeclimate.com/github/RiptideCloud/s3fs/badges/gpa.svg)](https://codeclimate.com/github/RiptideCloud/s3fs)
 
 Implementation of Node.JS [FS interface](http://nodejs.org/api/fs.html) using [Amazon Simple Storage Service (S3)](http://aws.amazon.com/s3/) for storage.
 
