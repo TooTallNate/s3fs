@@ -157,7 +157,7 @@ fsImpl.create().then(function() {
 
 ### s3fs.delete(cb)
 Deletes a bucket on S3, can only be deleted when empty. If you need to delete one that isn't empty use
-`[destroy(cb)](#s3fs.destroy(cb))` instead.
+[`destroy(cb)`](#s3fs.destroy(cb)) instead.
 
 * cb `Function`. _Optional_. Callback to be used, if not provided will return a Promise
 
@@ -200,7 +200,7 @@ fsImpl.headObject('test-file.txt').then(function(details) {
 ```
 
 ### s3fs.listContents(path, marker, cb)
-Retrieves a list of all objects within the specific path. The result is similar to that of [headObject(path, cb](#s3fs.headObject(path, cb))
+Retrieves a list of all objects within the specific path. The result is similar to that of [`headObject(path, cb)`](#s3fs.headObject(path, cb))
 expect that it contains an array of objects.
 
 * path `String`. **Required**. The path to list all of the objects for
@@ -242,7 +242,7 @@ Recursively reads a directory.
 ```js
 var fsImpl = new S3FS(options, 'test-bucket');
 fsImpl.readdirp('test-folder').then(function(files) {
-  // Files contains a list of all of the files similar to [fs.readdir(path, callback)](http://nodejs.org/api/fs.html#fs_fs_readdir_path_callback) but with recursive contents
+  // Files contains a list of all of the files similar to [`fs.readdir(path, callback)`](http://nodejs.org/api/fs.html#fs_fs_readdir_path_callback) but with recursive contents
 }, function(reason) {
   // Something went wrong
 });
