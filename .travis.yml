@@ -1,5 +1,5 @@
 language: node_js
-sudo: false # Use container boxes for tests
+sudo: false
 node_js:
 - 0.10.31
 - '0.10'
@@ -7,8 +7,8 @@ node_js:
 env:
   global:
   - LOG_LEVEL=error
-  - secure: Vktw46kHwdAR21Mk5PuHH3a1x9W2F8qGDXB7QRjfrTyJXrDmIIn2jl2hvgKIhobDqoj9zJXlxkEbYPFU50iTSQgMVWDTOzuA9Yc/eRriIXtLSWTqD/wOiG+e3f9vRgqtiZODi1kYmssFpe0JPiTz2ey8MWs1JXDp2Gnadqg7lBo=
-  - secure: Lu6OoVUouRC82PbUxF2tjd6fZZsyA/sici31Zl3VaoI3eKe2Fn3joI4hGBDsy8cr/5I8fQjXk/uji1KWuGdxCg7cQzoBf/eKanKo5+/N1VMsngsm4DliBqNWdvrQLfutrZOb4Gt6P4bROhGUzVcBI0CsvR4IbpRp0ArZrvnR5ys=
+  - secure: PVTvKQACV93Ajxp1+HNErD1OXXGylVAJQzPBYKN6ToOU6x4LFETcqTJlCzv189H8a95EJ5IW56NZPWvn3h/hzkqMgnz3k9+1hBUjrNaQmqb01XViroaXIsrAdDwx+mqfPeB9/r1ni0F7TVrAstMKtxSIKZKVMVwU5cQjO1QAuBQ=
+  - secure: lPAZNLXLi8z65JNeLKeFrHbdCpVqNS0XHaqxX4I+IhDKwE1oDIhlIyTfdnlTkKLJNPU8MM/9YDg8tYK8IlhWtwAjPytGRz7YmfnRDBGFJaA8SYIN3tZ+0kiBSxKOYIc+VslgV2D6JvoW0pP3dh4iyAV0o1GT7bgS9D3CozdCDug=
 matrix:
   fast_finish: true
 script: npm test
