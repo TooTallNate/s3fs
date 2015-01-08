@@ -16,11 +16,10 @@ after_script: npm run-script inspect
 addons:
   artifacts:
     key:
-      secure: IkWCXkSK6sl0M0HGCBM4mHhKheIGr4I6wUHu5rFaAC/+korYPPxdbYp85XnpcLlKj58warZr7F8XxftlLP9M14Jo05uWRF0GWbPrjljWv/W36K5p5H1eKkICtZW+lYlZFVInJ+ifCn6/vPij1BZ+IUSm9rj4AmVhdQBLRbRp3iQ=
+      secure: QAXfqiZmMr+2BkrFeE1cxjvKBUjq3x/2eEH+YIEW0ZSEr7QytIMUspcD1ZWYDM+OaNfbxKYbQhXCNQ7PndYhGB2kKTNhYXzh2NDjpjUb5DOTwciAIHwpZ6PFxkMXykaaqM5ikxyedFM6QGTOUfPNKZaoBdohm3mAUQUPgaJRy6g=
     secret:
-      secure: S/e3GB6UnhNQSNi4fJpnqVn4yxgXsZY/bYSJjm3MPdJF8t2onzoYUo7zHbgpNVxEwvqMZjknFQ3ZEkoKs+5JjDPbsTHTCbk5l0Kg3eTpr1FUDrFAzEGcw5jhQkMKFXTn++Ob99UByK5pDo92MLasIx83d1PqmYl+Ya15hDK6XQo=
+      secure: H3r8EljQ2T6PW9GOF6RG4t88eSAVdBLi8CvxPRP1XQT3azxxgbxBhHHOAADAdZUDoVmRKg2LWgfy5/y+SMGVp8oc6MAaGkfGYI6Sa5aNaooElf5/RPh0DwS5Aa+eGmjcOaKFjDzyXU6CcIKsqzlOc+4fLu/zzyHN3N8zPPHiaE0=
     bucket: elements-travis-artifacts
-    debug: true
     paths:
     - $(find reports/* -print | tr "\n" ":")
     - $(find coverage/* -print | tr "\n" ":")
