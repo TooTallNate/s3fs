@@ -107,7 +107,7 @@ var fsImpl = new S3FS(options, 'test-bucket/test-folder');
 var fsImplStyles = fsImpl.clone('styles');
 ```
 
-### s3fs.copyObject(sourcePath, destinationPath, cb)
+### s3fs.copyObject(sourcePath, destinationPath, [cb])
 Allows an object to be copied from one path to another path within the same bucket. Paths are relative to
 the bucket originally provided.
 
@@ -124,7 +124,7 @@ fsImpl.copyObject('test-folder/test-file.txt', 'other-folder/test-file.txt').the
 });
 ```
 
-### s3fs.copyDirectory(sourcePath, destinationPath, cb)
+### s3fs.copyDirectory(sourcePath, destinationPath, [cb])
 Recursively copies a directory from the source path to the destination path.
 
 * sourcePath `String`. **Required**. The source directory to be copied
@@ -140,7 +140,7 @@ fsImpl.copyDirectory('test-folder', 'other-folder').then(function() {
 });
 ```
 
-### s3fs.create(options, cb)
+### s3fs.create(options, [cb])
 Creates a new bucket on S3.
 
 * options `Object`. _Optional_. The options to be used when creating the bucket. See [AWS SDK](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#createBucket-property)
@@ -155,9 +155,9 @@ fsImpl.create().then(function() {
 });
 ```
 
-### s3fs.delete(cb)
+### s3fs.delete([cb])
 Deletes a bucket on S3, can only be deleted when empty. If you need to delete one that isn't empty use
-[`destroy(cb)`](#s3fs.destroy(cb)) instead.
+[`destroy([cb])`](#s3fsdestroycb) instead.
 
 * cb `Function`. _Optional_. Callback to be used, if not provided will return a Promise
 
@@ -170,7 +170,7 @@ fsImpl.delete().then(function() {
 });
 ```
 
-### s3fs.destroy(cb)
+### s3fs.destroy([cb])
 Recursively deletes all files within the bucket and then deletes the bucket.
 
 * cb `Function`. _Optional_. Callback to be used, if not provided will return a Promise
@@ -184,7 +184,7 @@ fsImpl.destroy().then(function() {
 });
 ```
 
-### s3fs.headObject(path, cb)
+### s3fs.headObject(path, [cb])
 Retrieves the details about an object, but not the contents.
 
 * path `String`. **Required**. Path to the object to retrieve the head for
@@ -199,8 +199,8 @@ fsImpl.headObject('test-file.txt').then(function(details) {
 });
 ```
 
-### s3fs.listContents(path, marker, cb)
-Retrieves a list of all objects within the specific path. The result is similar to that of [`headObject(path, cb)`](#s3fs.headObject(path, cb))
+### s3fs.listContents(path, marker, [cb])
+Retrieves a list of all objects within the specific path. The result is similar to that of [`headObject(path, [cb])`](#s3fsheadobjectpath-cb)
 expect that it contains an array of objects.
 
 * path `String`. **Required**. The path to list all of the objects for
@@ -216,7 +216,7 @@ fsImpl.listContents('/', '/').then(function(data) {
 });
 ```
 
-### s3fs.putBucketLifecycle(name, prefix, days, cb)
+### s3fs.putBucketLifecycle(name, prefix, days, [cb])
 Adds/Updates a lifecycle on a bucket.
 
 * name `String`. **Required**. The name of the lifecycle. The value cannot be longer than 255 characters.
@@ -234,7 +234,7 @@ fsImpl.putBucketLifecycle('expire cache', 'cache', 1).then(function() {
 });
 ```
 
-### s3fs.readdirp(path, cb)
+### s3fs.readdirp(path, [cb])
 Recursively reads a directory.
 
 * path `String`. **Required**. The path to the directory to read from
@@ -248,7 +248,7 @@ fsImpl.readdirp('test-folder').then(function(files) {
 });
 ```
 
-### s3fs.rmdirp(path, cb)
+### s3fs.rmdirp(path, [cb])
 Recursively deletes a directory.
 
 * path The path to the directory to delete
