@@ -7,8 +7,8 @@ node_js:
 env:
   global:
   - LOG_LEVEL=error
-  - secure: PVTvKQACV93Ajxp1+HNErD1OXXGylVAJQzPBYKN6ToOU6x4LFETcqTJlCzv189H8a95EJ5IW56NZPWvn3h/hzkqMgnz3k9+1hBUjrNaQmqb01XViroaXIsrAdDwx+mqfPeB9/r1ni0F7TVrAstMKtxSIKZKVMVwU5cQjO1QAuBQ=
-  - secure: lPAZNLXLi8z65JNeLKeFrHbdCpVqNS0XHaqxX4I+IhDKwE1oDIhlIyTfdnlTkKLJNPU8MM/9YDg8tYK8IlhWtwAjPytGRz7YmfnRDBGFJaA8SYIN3tZ+0kiBSxKOYIc+VslgV2D6JvoW0pP3dh4iyAV0o1GT7bgS9D3CozdCDug=
+  - secure: XGrXDCLxKEMkvCspNSwoUcjGZkIBjypW9yo3Mx/fBH/OO2wpA1WOsKoeXse+PmkvNtokcVgcofKgnVeRkrfj1UteRxtSFtRoTgXb8kDA9w4rCC3V15nzuZmep+S+yt5jUP/Q8yjrwcgA3Ltjt62OzNBBaXTaqXyY90TwJ6syUh4=
+  - secure: jVlK/+HKbaNQeEFR3kE3jsD/9RAxcG/g2flq6jNLoAPGuiZ1qRLJ1Y/qQe/BxCw8o6kthtFbu18J9XgbnD5BTJMqD7oOtaZvSZ+nvVK84QDJtjLykm9lSiYOSgd1xBTW66BSgUKNZ3ZeYVBnzwRo2EkFsiXvyXmm2yr3pKsv+e4=
 matrix:
   fast_finish: true
 script: npm test
@@ -16,9 +16,9 @@ after_script: npm run-script inspect
 addons:
   artifacts:
     key:
-      secure: SZ3FPvS4xET5nbAGWCPouxY/rs5fStsnYLX1ojU9vYq4MFuk4qQGqplqNFvPOmCWGDdDs3IlvFlB8bgy/5AC0LrOjgcTZyY9hyyXA0qHitW/sjE9iql1TzazAtwhEcItvvoXgsVkODIOpCNwX3Dp1+XfkpQLCGmbX4gsiFCnmrk=
+      secure: IkWCXkSK6sl0M0HGCBM4mHhKheIGr4I6wUHu5rFaAC/+korYPPxdbYp85XnpcLlKj58warZr7F8XxftlLP9M14Jo05uWRF0GWbPrjljWv/W36K5p5H1eKkICtZW+lYlZFVInJ+ifCn6/vPij1BZ+IUSm9rj4AmVhdQBLRbRp3iQ=
     secret:
-      secure: DvneSKAgD0ik2z0dcO+O+/zTNcxdA9A5Ng7mlWdGM59s4lhwO6C4sHAKJYrrPndBuntJ2reh4dpmLJIONCHomNWwTZMTK88tShliXTq8zWBkSO/dcV85lOzVd/HEpq3YJxXpadXst1GjzWoBjjCLLZmmz4/X3oRQkUvgTNzTieU=
+      secure: S/e3GB6UnhNQSNi4fJpnqVn4yxgXsZY/bYSJjm3MPdJF8t2onzoYUo7zHbgpNVxEwvqMZjknFQ3ZEkoKs+5JjDPbsTHTCbk5l0Kg3eTpr1FUDrFAzEGcw5jhQkMKFXTn++Ob99UByK5pDo92MLasIx83d1PqmYl+Ya15hDK6XQo=
     bucket: elements-travis-artifacts
     debug: true
     paths:
