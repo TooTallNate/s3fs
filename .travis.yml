@@ -7,8 +7,8 @@ node_js:
 env:
   global:
   - LOG_LEVEL=error
-  - secure: XGrXDCLxKEMkvCspNSwoUcjGZkIBjypW9yo3Mx/fBH/OO2wpA1WOsKoeXse+PmkvNtokcVgcofKgnVeRkrfj1UteRxtSFtRoTgXb8kDA9w4rCC3V15nzuZmep+S+yt5jUP/Q8yjrwcgA3Ltjt62OzNBBaXTaqXyY90TwJ6syUh4=
-  - secure: jVlK/+HKbaNQeEFR3kE3jsD/9RAxcG/g2flq6jNLoAPGuiZ1qRLJ1Y/qQe/BxCw8o6kthtFbu18J9XgbnD5BTJMqD7oOtaZvSZ+nvVK84QDJtjLykm9lSiYOSgd1xBTW66BSgUKNZ3ZeYVBnzwRo2EkFsiXvyXmm2yr3pKsv+e4=
+  - secure: Nto0DJdtm5X9c0UxO3WDc1UJcDMr6iqonzEg8jsbv6WBcKx4QuZTwJQevKxqb6Tn3kiY4EAKMxZkBPUEwAtOSjDNXogOS1WbZZ+8KxcHB5eMqAtRUR0cT4MnyHFxHD/yKzUMlpMLPw9sBRJVXyj1S3oZtgMyvgrxvXbdi6gFCnI=
+  - secure: TOpGyGYih+aDCljsnk93VEe+FRh8Ehh56Ycs1vFglWbC5HukgQ6gjrgpn28JUN1pV+XYIhfuDcvRNXLOBP4mX80c3LwClOh4AXzOf1VJcJyIGRVMCuCK9UgS37e/RsxgFczcu/MzJG/rCbt0lR46t6FQhqEBzmsbJV0oL5zA94M=
 matrix:
   fast_finish: true
 script: npm test
