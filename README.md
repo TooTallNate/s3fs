@@ -91,7 +91,6 @@ npm run inspect
 This will create files with the results in the `reports` directory.
 
 ## ToDo
-* Switch from Encrypted Environment Variables to using Travis-CI Environment Variables in the console
 * More tests
 * More documentation
 * Eat more cookies
