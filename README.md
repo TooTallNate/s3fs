@@ -2,6 +2,12 @@
 [![Build Status](https://travis-ci.org/RiptideCloud/s3fs.svg?branch=master)](https://travis-ci.org/RiptideCloud/s3fs)
 [![Coverage Status](https://img.shields.io/coveralls/RiptideCloud/s3fs.svg)](https://coveralls.io/r/RiptideCloud/s3fs)
 [![Code Climate](https://codeclimate.com/github/RiptideCloud/s3fs/badges/gpa.svg)](https://codeclimate.com/github/RiptideCloud/s3fs)
+[![npm](https://img.shields.io/npm/v/s3fs.svg)]()
+[![npm](https://img.shields.io/npm/dm/s3fs.svg)]()
+[![David](https://img.shields.io/david/RiptideCloud/s3fs.svg)]()
+[![David](https://img.shields.io/david/dev/RiptideCloud/s3fs.svg)]()
+[![David](https://img.shields.io/david/peer/RiptideCloud/s3fs.svg)]()
+[![Codacy](https://img.shields.io/codacy/e15e6fda7ab3418e8d5573ad32f97a8b.svg)]()
 
 Implementation of Node.JS [FS interface](http://nodejs.org/api/fs.html) using [Amazon Simple Storage Service (S3)](http://aws.amazon.com/s3/) for storage.
 
