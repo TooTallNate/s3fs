@@ -39,7 +39,6 @@
   "dependencies": {
     "aws-sdk": "^2.x",
     "cb-q": "0.0.2",
-    "dirty-chai": "0.0.2",
     "extend": "^2.x",
     "q": "^1.x"
   },
