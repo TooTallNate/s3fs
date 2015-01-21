@@ -24,11 +24,13 @@
     "email": "Jhorlin@gmail.com",
     "url": "https://github.com/Jhorlin"
   },
-  "contributors": {
-    "name": "David Pate",
-    "email": "davidtpate@gmail.com",
-    "url": "https://github.com/DavidTPate"
-  },
+  "contributors": [
+    {
+      "name": "David Pate",
+      "email": "davidtpate@gmail.com",
+      "url": "https://github.com/DavidTPate"
+    }
+  ],
   "licenses": [
     {
       "type": "MIT",
