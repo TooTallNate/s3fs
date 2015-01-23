@@ -12,4 +12,4 @@ env:
 matrix:
   fast_finish: true
 script: npm test
-after_script: "npm run-script inspect && npm install coveralls && cat ./coverage/lcov.info | coveralls"
+after_script: npm run-script inspect && npm install codecov.io && cat ./coverage/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js
