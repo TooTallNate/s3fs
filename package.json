@@ -59,7 +59,7 @@
     "should": "^4.x"
   },
   "scripts": {
-    "test": "MOCHA_REPORTER=Spec MOCHA_REPORTER_FILE=reports/xunit.xml istanbul cover node_modules/mocha/bin/_mocha -- --check-leaks  --timeout 60000 --reporter reporter-file test/",
+    "test": "MOCHA_REPORTER=Spec MOCHA_REPORTER_FILE=reports/xunit.xml istanbul cover node_modules/mocha/bin/_mocha -- --check-leaks  --timeout 60000 --reporter reporter-file test/ && jshint --show-non-errors . && jscs . && buddy index.js lib test && nsp audit-package",
     "inspect": "jshint --show-non-errors --reporter=jslint . > reports/jshint.xml | echo 'Oh hai' && jscs --reporter checkstyle . > reports/checkstyle.xml | echo 'The name is' && jsinspect . > reports/jsinspect.json | echo 'Bond,' && buddy --reporter json index.js lib test > reports/buddy.json | echo 'James' && nsp audit-package >& reports/security.txt | echo 'Bond.'"
   }
 }
