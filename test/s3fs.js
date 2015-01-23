@@ -64,25 +64,25 @@
 
         it('shouldn\'t be able to instaniate S3FS without options', function () {
             return expect(function () {
-                new S3FS();
+                S3FS();
             }).to.throw(Error, 'options is required');
         });
 
         it('shouldn\'t be able to instaniate S3FS without an accessKeyId', function () {
             return expect(function () {
-                new S3FS({});
+                S3FS({});
             }).to.throw(Error, 'accessKeyId is required');
         });
 
         it('shouldn\'t be able to instaniate S3FS without a secretAccessKey', function () {
             return expect(function () {
-                new S3FS({accessKeyId: 'test'});
+                S3FS({accessKeyId: 'test'});
             }).to.throw(Error, 'secretAccessKey is required');
         });
 
         it('shouldn\'t be able to instaniate S3FS without a bucket', function () {
             return expect(function () {
-                new S3FS({accessKeyId: 'test', secretAccessKey: 'test'});
+                S3FS({accessKeyId: 'test', secretAccessKey: 'test'});
             }).to.throw(Error, 'bucket is required');
         });
 

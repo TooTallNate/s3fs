@@ -39,7 +39,7 @@
     "disallowSpacesInFunctionDeclaration": {
         "beforeOpeningRoundBrace": true
     },
-    "requireMultipleVarDecl": "onevar",
+    "requireMultipleVarDecl": true,
     "requireBlocksOnNewline": 1,
     "disallowEmptyBlocks": true,
     "disallowSpacesInsideArrayBrackets": true,
