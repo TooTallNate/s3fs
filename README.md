@@ -1,13 +1,13 @@
 # S3FS
-[![npm](https://img.shields.io/npm/v/s3fs.svg)]()
-[![npm](https://img.shields.io/npm/dm/s3fs.svg)]()
+[![npm](https://img.shields.io/npm/v/s3fs.svg)](https://www.npmjs.com/package/s3fs)
+[![npm](https://img.shields.io/npm/dm/s3fs.svg)](https://www.npmjs.com/package/s3fs)
 [![Build Status](https://travis-ci.org/RiptideCloud/s3fs.svg?branch=master)](https://travis-ci.org/RiptideCloud/s3fs)
 [![Coverage Status](https://img.shields.io/coveralls/RiptideCloud/s3fs.svg)](https://coveralls.io/r/RiptideCloud/s3fs)
 [![Codacy](https://img.shields.io/codacy/13e0385fd6fc4929a2d1a974c7d0d67f.svg)](https://www.codacy.com/public/davidtpate/s3fs)
 [![Code Climate](https://codeclimate.com/github/RiptideCloud/s3fs/badges/gpa.svg)](https://codeclimate.com/github/RiptideCloud/s3fs)
-[![David](https://img.shields.io/david/RiptideCloud/s3fs.svg)]()
-[![David](https://img.shields.io/david/dev/RiptideCloud/s3fs.svg)]()
-[![David](https://img.shields.io/david/peer/RiptideCloud/s3fs.svg)]()
+[![David](https://img.shields.io/david/RiptideCloud/s3fs.svg)](https://david-dm.org/RiptideCloud/s3fs)
+[![David](https://img.shields.io/david/dev/RiptideCloud/s3fs.svg)](https://david-dm.org/RiptideCloud/s3fs)
+[![David](https://img.shields.io/david/peer/RiptideCloud/s3fs.svg)](https://david-dm.org/RiptideCloud/s3fs)
 
 Implementation of Node.JS [FS interface](http://nodejs.org/api/fs.html) using [Amazon Simple Storage Service (S3)](http://aws.amazon.com/s3/) for storage.
 
