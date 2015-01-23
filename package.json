@@ -45,17 +45,17 @@
     "q": "^1.x"
   },
   "devDependencies": {
-    "buddy.js": "^0.7.x",
+    "buddy.js": "^0.x",
     "chai": "<1.10",
     "chai-as-promised": "^4.x",
-    "dirty-chai": "^0.0.1",
-    "nsp": "^0.5.x",
+    "dirty-chai": "^1.x",
+    "nsp": "^1.x",
     "mocha": "^2.x",
-    "istanbul": "^0.3.x",
+    "istanbul": "^0.x",
     "jscs": "^1.x",
     "jshint": "^2.x",
-    "jsinspect": "^0.3.x",
-    "reporter-file": "^0.0.x",
+    "jsinspect": "^0.x",
+    "reporter-file": "^0.x",
     "should": "^4.x"
   },
   "scripts": {
