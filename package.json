@@ -55,7 +55,7 @@
     "jscs": "^1.x",
     "jshint": "^2.x",
     "jsinspect": "^0.x",
-    "reporter-file": "^0.x"
+    "reporter-file": "^1.x"
   },
   "scripts": {
     "test": "MOCHA_REPORTER=Spec MOCHA_REPORTER_FILE=reports/xunit.xml istanbul cover node_modules/mocha/bin/_mocha -- --check-leaks  --timeout 60000 --reporter reporter-file test/ && jshint --show-non-errors . && jscs . && buddy index.js lib test && nsp audit-package",

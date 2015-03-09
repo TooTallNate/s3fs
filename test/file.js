@@ -67,25 +67,25 @@
         });
 
         it('should be able to write a file from a string', function () {
-            return expect(bucketS3fsImpl.writeFile('test-file.json', '{ "test": "test" }')).to.eventually.be.fulfilled;
+            return expect(bucketS3fsImpl.writeFile('test-file.json', '{ "test": "test" }')).to.eventually.be.fulfilled();
         });
 
         it('should be able to write a file from a string with a callback', function () {
             var cb = cbQ.cb();
             bucketS3fsImpl.writeFile('test.json', '{ "test": "test" }', cb);
-            return expect(cb.promise).to.eventually.be.fulfilled;
+            return expect(cb.promise).to.eventually.be.fulfilled();
         });
 
         it('should be able to write a large file', function () {
             var largeFile = fs.readFileSync('./test/mock/large-file.txt');
-            return expect(bucketS3fsImpl.writeFile('write-large.txt', largeFile)).to.eventually.be.fulfilled;
+            return expect(bucketS3fsImpl.writeFile('write-large.txt', largeFile)).to.eventually.be.fulfilled();
         });
 
         it('should be able to write a large file with a callback', function () {
             var largeFile = fs.readFileSync('./test/mock/large-file.txt');
             var cb = cbQ.cb();
             bucketS3fsImpl.writeFile('write-large-callback.txt', largeFile, cb);
-            return expect(cb.promise).to.eventually.be.fulfilled;
+            return expect(cb.promise).to.eventually.be.fulfilled();
         });
 
         it('should be able to tell if a file exists', function () {
@@ -93,7 +93,7 @@
                     .then(function () {
                         return bucketS3fsImpl.exists('test-exists.json');
                     })
-            ).to.eventually.be.fulfilled;
+            ).to.eventually.be.fulfilled();
         });
 
         it('should be able to tell if a file exists with a callback', function () {
@@ -114,7 +114,7 @@
                     .then(function () {
                         return bucketS3fsImpl.copyObject('test-copy.json', 'test-copy-dos.json');
                     })
-            ).to.eventually.be.fulfilled;
+            ).to.eventually.be.fulfilled();
         });
 
         it('should be able to copy an object with a callback', function () {
@@ -124,7 +124,7 @@
                         bucketS3fsImpl.copyObject('test-copy-callback.json', 'test-copy-callback-dos.json', cb);
                         return cb.promise;
                     })
-            ).to.eventually.be.fulfilled;
+            ).to.eventually.be.fulfilled();
         });
 
         it('should be able to get the head of an object', function () {
@@ -132,7 +132,7 @@
                     .then(function () {
                         return bucketS3fsImpl.headObject('test-head.json');
                     })
-            ).to.eventually.be.fulfilled;
+            ).to.eventually.be.fulfilled();
         });
 
         it('should be able to get the head of an object with a callback', function () {
@@ -142,7 +142,7 @@
                         bucketS3fsImpl.headObject('test-head-callback.json', cb);
                         return cb.promise;
                     })
-            ).to.eventually.be.fulfilled;
+            ).to.eventually.be.fulfilled();
         });
 
         it('should be able to delete a file', function () {
@@ -150,7 +150,7 @@
                     .then(function () {
                         return bucketS3fsImpl.unlink('test-delete.json');
                     })
-            ).to.eventually.be.fulfilled;
+            ).to.eventually.be.fulfilled();
         });
 
         it('should be able to delete a file with a callback', function () {
@@ -160,7 +160,7 @@
                         bucketS3fsImpl.unlink('test-delete-callback.json', cb);
                         return cb.promise;
                     })
-            ).to.eventually.be.fulfilled;
+            ).to.eventually.be.fulfilled();
         });
 
         it('shouldn\'t be able to write a file from an object', function () {
@@ -175,38 +175,38 @@
 
         it('should be able to write a file from a buffer', function () {
             var exampleFile = fs.readFileSync('./test/mock/example-file.json');
-            return expect(bucketS3fsImpl.writeFile('test-buffer.json', exampleFile)).to.eventually.be.fulfilled;
+            return expect(bucketS3fsImpl.writeFile('test-buffer.json', exampleFile)).to.eventually.be.fulfilled();
         });
 
         it('should be able to write a file from a buffer with a callback', function () {
             var exampleFile = fs.readFileSync('./test/mock/example-file.json');
             var cb = cbQ.cb();
             bucketS3fsImpl.writeFile('test-buffer-callback.json', exampleFile, cb);
-            return expect(cb.promise).to.eventually.be.fulfilled;
+            return expect(cb.promise).to.eventually.be.fulfilled();
         });
 
         it('should be able to write a file from a stream', function () {
             var stream = fs.createReadStream('./test/mock/example-file.json');
-            return expect(bucketS3fsImpl.writeFile('test-stream.json', stream)).to.eventually.be.fulfilled;
+            return expect(bucketS3fsImpl.writeFile('test-stream.json', stream)).to.eventually.be.fulfilled();
         });
 
         it('should be able to write a file from a stream with a callback', function () {
             var stream = fs.createReadStream('./test/mock/example-file.json');
             var cb = cbQ.cb();
             bucketS3fsImpl.writeFile('test-stream-callback.json', stream, cb);
-            return expect(cb.promise).to.eventually.be.fulfilled;
+            return expect(cb.promise).to.eventually.be.fulfilled();
         });
 
         it('should be able to write a large file from a stream', function () {
             var stream = fs.createReadStream('./test/mock/large-file.txt');
-            return expect(bucketS3fsImpl.writeFile('test-large-stream.txt', stream)).to.eventually.be.fulfilled;
+            return expect(bucketS3fsImpl.writeFile('test-large-stream.txt', stream)).to.eventually.be.fulfilled();
         });
 
         it('should be able to write a large file from a stream with a callback', function () {
             var stream = fs.createReadStream('./test/mock/large-file.txt');
             var cb = cbQ.cb();
             bucketS3fsImpl.writeFile('test-large-stream-callback.txt', stream, cb);
-            return expect(cb.promise).to.eventually.be.fulfilled;
+            return expect(cb.promise).to.eventually.be.fulfilled();
         });
 
         it('should be able to pipe a file from a stream', function () {
@@ -219,7 +219,7 @@
                 .on('error', function (err) {
                     deferred.reject(err);
                 });
-            return expect(deferred.promise).to.eventually.be.fulfilled;
+            return expect(deferred.promise).to.eventually.be.fulfilled();
         });
 
         it('should be able to pipe a large file from a stream', function () {
@@ -232,31 +232,31 @@
                 .on('error', function (err) {
                     deferred.reject(err);
                 });
-            return expect(deferred.promise).to.eventually.be.fulfilled;
+            return expect(deferred.promise).to.eventually.be.fulfilled();
         });
 
         it.skip('should be able to write a file from a blob', function () {
             //TODO: Get this setup
-            return expect(bucketS3fsImpl.writeFile('test-blobl.json', {test: 'test'})).to.eventually.be.fulfilled;
+            return expect(bucketS3fsImpl.writeFile('test-blobl.json', {test: 'test'})).to.eventually.be.fulfilled();
         });
 
         it.skip('should be able to write a file from a blob with a callback', function () {
             //TODO: Get this setup
             var cb = cbQ.cb();
             bucketS3fsImpl.writeFile('test-blob-callback.json', {test: 'test'}, cb);
-            return expect(cb.promise).to.eventually.be.fulfilled;
+            return expect(cb.promise).to.eventually.be.fulfilled();
         });
 
         it.skip('should be able to write a file from a typed array', function () {
             //TODO: Get this setup
-            return expect(bucketS3fsImpl.writeFile('test-typed.json', {test: 'test'})).to.eventually.be.fulfilled;
+            return expect(bucketS3fsImpl.writeFile('test-typed.json', {test: 'test'})).to.eventually.be.fulfilled();
         });
 
         it.skip('should be able to write a file from a typed array with a callback', function () {
             //TODO: Get this setup
             var cb = cbQ.cb();
             bucketS3fsImpl.writeFile('test-typed-callback.json', {test: 'test'}, cb);
-            return expect(cb.promise).to.eventually.be.fulfilled;
+            return expect(cb.promise).to.eventually.be.fulfilled();
         });
 
         it('should be able to read the file as a stream', function () {
@@ -281,7 +281,7 @@
                         }
                         return deferred.promise;
                     })
-            ).to.eventually.be.fulfilled;
+            ).to.eventually.be.fulfilled();
         });
 
         it('should be able to retrieve the stats of a file - stat(2)', function () {

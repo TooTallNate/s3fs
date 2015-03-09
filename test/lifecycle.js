@@ -73,7 +73,7 @@
             return expect(
                 bucketS3fsImpl.putBucketLifecycle('test-lifecycle', prefix, days)
                 //TODO: Add verification that the lifecycle was set
-            ).to.eventually.be.fulfilled;
+            ).to.eventually.be.fulfilled();
         });
 
         it('should be able to set a bucket lifecycle with a callback', function () {
@@ -83,7 +83,7 @@
             var cb = cbQ.cb();
             bucketS3fsImpl.putBucketLifecycle('test-lifecycle-callback', prefix, days, cb);
             //TODO: Add verification that the lifecycle was set
-            return expect(cb.promise).to.eventually.be.fulfilled;
+            return expect(cb.promise).to.eventually.be.fulfilled();
         });
 
         it('should be able to update a bucket lifecycle', function () {
@@ -96,7 +96,7 @@
                         return s3fsImpl.putBucketLifecycle('test-lifecycle-update', prefix, finalDays);
                         //TODO: Add verification that the lifecycle was set
                     })
-            ).to.eventually.be.fulfilled;
+            ).to.eventually.be.fulfilled();
         });
 
         it('should be able to update a bucket lifecycle with a callback', function () {
@@ -111,7 +111,7 @@
                         return cb.promise;
                         //TODO: Add verification that the lifecycle was set
                     })
-            ).to.eventually.be.fulfilled;
+            ).to.eventually.be.fulfilled();
         });
 
     });
