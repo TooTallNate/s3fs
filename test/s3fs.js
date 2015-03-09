@@ -28,18 +28,16 @@
     chai.use(chaiAsPromised);
     chai.config.includeStack = true;
 
-    describe('S3FS Instances', function () {
+    describe.only('S3FS Instances', function () {
         var s3Credentials,
             bucketName,
+            bucketS3fsImpl,
             s3fsImpl;
 
         before(function () {
             if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_KEY) {
                 throw new Error('Both an AWS Access Key ID and Secret Key are required');
             }
-        });
-
-        beforeEach(function () {
             s3Credentials = {
                 accessKeyId: process.env.AWS_ACCESS_KEY_ID,
                 secretAccessKey: process.env.AWS_SECRET_KEY,
@@ -47,9 +45,15 @@
             };
             bucketName = 's3fs-test-bucket-' + (Math.random() + '').slice(2, 8);
             s3fsImpl = new S3FS(s3Credentials, bucketName);
+
+            return s3fsImpl.create();
         });
 
-        afterEach(function (done) {
+        beforeEach(function () {
+            bucketS3fsImpl = s3fsImpl.clone('testDir-' + (Math.random() + '').slice(2, 8));
+        });
+
+        after(function (done) {
             s3fsImpl.destroy().then(function () {
                 done();
             }, function (reason) {
@@ -87,16 +91,13 @@
         });
 
         it('should be able to clone s3fs', function () {
-            return expect(s3fsImpl.clone('imAClone')).to.not.throw;
+            return expect(bucketS3fsImpl.clone('imAClone')).to.not.throw;
         });
 
         it('should be able to clone s3fs then read a file', function () {
-            return expect(s3fsImpl.create()
+            return expect(bucketS3fsImpl.writeFile('imAClone/test-file.json', '{ "test": "test" }')
                     .then(function () {
-                        return s3fsImpl.writeFile('imAClone/test-file.json', '{ "test": "test" }');
-                    })
-                    .then(function () {
-                        var s3fsClone = s3fsImpl.clone('imAClone');
+                        var s3fsClone = bucketS3fsImpl.clone('imAClone');
                         return s3fsClone.readFile('test-file.json');
                     })
             ).to.eventually.satisfy(function (file) {

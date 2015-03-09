@@ -40,13 +40,13 @@
   "main": "index.js",
   "dependencies": {
     "aws-sdk": "^2.x",
-    "cb-q": "0.0.2",
+    "cb-q": "^0.x",
     "extend": "^2.x",
     "q": "^1.x"
   },
   "devDependencies": {
     "buddy.js": "^0.x",
-    "chai": "<1.10",
+    "chai": "^2.x",
     "chai-as-promised": "^4.x",
     "dirty-chai": "^1.x",
     "nsp": "^1.x",
@@ -55,8 +55,7 @@
     "jscs": "^1.x",
     "jshint": "^2.x",
     "jsinspect": "^0.x",
-    "reporter-file": "^0.x",
-    "should": "^4.x"
+    "reporter-file": "^0.x"
   },
   "scripts": {
     "test": "MOCHA_REPORTER=Spec MOCHA_REPORTER_FILE=reports/xunit.xml istanbul cover node_modules/mocha/bin/_mocha -- --check-leaks  --timeout 60000 --reporter reporter-file test/ && jshint --show-non-errors . && jscs . && buddy index.js lib test && nsp audit-package",
