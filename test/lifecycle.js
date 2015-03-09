@@ -78,9 +78,8 @@
 
         it('should be able to set a bucket lifecycle with a callback', function () {
             var prefix = 'test',
-                days = 1;
-
-            var cb = cbQ.cb();
+                days = 1,
+                cb = cbQ.cb();
             bucketS3fsImpl.putBucketLifecycle('test-lifecycle-callback', prefix, days, cb);
             //TODO: Add verification that the lifecycle was set
             return expect(cb.promise).to.eventually.be.fulfilled();

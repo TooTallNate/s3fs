@@ -82,8 +82,8 @@
         });
 
         it('should be able to write a large file with a callback', function () {
-            var largeFile = fs.readFileSync('./test/mock/large-file.txt');
-            var cb = cbQ.cb();
+            var largeFile = fs.readFileSync('./test/mock/large-file.txt'),
+                cb = cbQ.cb();
             bucketS3fsImpl.writeFile('write-large-callback.txt', largeFile, cb);
             return expect(cb.promise).to.eventually.be.fulfilled();
         });
@@ -179,8 +179,8 @@
         });
 
         it('should be able to write a file from a buffer with a callback', function () {
-            var exampleFile = fs.readFileSync('./test/mock/example-file.json');
-            var cb = cbQ.cb();
+            var exampleFile = fs.readFileSync('./test/mock/example-file.json'),
+                cb = cbQ.cb();
             bucketS3fsImpl.writeFile('test-buffer-callback.json', exampleFile, cb);
             return expect(cb.promise).to.eventually.be.fulfilled();
         });
@@ -191,8 +191,8 @@
         });
 
         it('should be able to write a file from a stream with a callback', function () {
-            var stream = fs.createReadStream('./test/mock/example-file.json');
-            var cb = cbQ.cb();
+            var stream = fs.createReadStream('./test/mock/example-file.json'),
+                cb = cbQ.cb();
             bucketS3fsImpl.writeFile('test-stream-callback.json', stream, cb);
             return expect(cb.promise).to.eventually.be.fulfilled();
         });
@@ -203,8 +203,8 @@
         });
 
         it('should be able to write a large file from a stream with a callback', function () {
-            var stream = fs.createReadStream('./test/mock/large-file.txt');
-            var cb = cbQ.cb();
+            var stream = fs.createReadStream('./test/mock/large-file.txt'),
+                cb = cbQ.cb();
             bucketS3fsImpl.writeFile('test-large-stream-callback.txt', stream, cb);
             return expect(cb.promise).to.eventually.be.fulfilled();
         });
