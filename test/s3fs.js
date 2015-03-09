@@ -28,7 +28,7 @@
     chai.use(chaiAsPromised);
     chai.config.includeStack = true;
 
-    describe.only('S3FS Instances', function () {
+    describe('S3FS Instances', function () {
         var s3Credentials,
             bucketName,
             bucketS3fsImpl,
@@ -43,7 +43,7 @@
                 secretAccessKey: process.env.AWS_SECRET_KEY,
                 region: process.env.AWS_REGION
             };
-            bucketName = 's3fs-test-bucket-' + (Math.random() + '').slice(2, 8);
+            bucketName = 's3fs-clone-test-bucket-' + (Math.random() + '').slice(2, 8);
             s3fsImpl = new S3FS(s3Credentials, bucketName);
 
             return s3fsImpl.create();
