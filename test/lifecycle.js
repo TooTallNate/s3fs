@@ -31,25 +31,29 @@
     describe('S3FS Bucket Lifecycles', function () {
         var s3Credentials,
             bucketName,
+            bucketS3fsImpl,
             s3fsImpl;
 
         before(function () {
             if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_KEY) {
                 throw new Error('Both an AWS Access Key ID and Secret Key are required');
             }
-        });
-
-        beforeEach(function () {
             s3Credentials = {
                 accessKeyId: process.env.AWS_ACCESS_KEY_ID,
                 secretAccessKey: process.env.AWS_SECRET_KEY,
                 region: process.env.AWS_REGION
             };
-            bucketName = 's3fs-test-bucket-' + (Math.random() + '').slice(2, 8);
+            bucketName = 's3fs-lifecycle-test-bucket-' + (Math.random() + '').slice(2, 8);
             s3fsImpl = new S3FS(s3Credentials, bucketName);
+
+            return s3fsImpl.create();
         });
 
-        afterEach(function (done) {
+        beforeEach(function () {
+            bucketS3fsImpl = s3fsImpl.clone('testDir-' + (Math.random() + '').slice(2, 8));
+        });
+
+        after(function (done) {
             s3fsImpl.destroy().then(function () {
                 done();
             }, function (reason) {
@@ -66,22 +70,19 @@
             var prefix = 'test',
                 days = 1;
 
-            return expect(s3fsImpl.create()
-                .then(function () {
-                    return s3fsImpl.putBucketLifecycle('test-expiration-lifecycle', prefix, days);
-                })).to.eventually.be.fulfilled;
+            return expect(
+                bucketS3fsImpl.putBucketLifecycle('test-lifecycle', prefix, days)
+                //TODO: Add verification that the lifecycle was set
+            ).to.eventually.be.fulfilled();
         });
 
         it('should be able to set a bucket lifecycle with a callback', function () {
             var prefix = 'test',
-                days = 1;
-
-            return expect(s3fsImpl.create()
-                .then(function () {
-                    var cb = cbQ.cb();
-                    s3fsImpl.putBucketLifecycle('test-expiration-lifecycle', prefix, days, cb);
-                    return cb.promise;
-                })).to.eventually.be.fulfilled;
+                days = 1,
+                cb = cbQ.cb();
+            bucketS3fsImpl.putBucketLifecycle('test-lifecycle-callback', prefix, days, cb);
+            //TODO: Add verification that the lifecycle was set
+            return expect(cb.promise).to.eventually.be.fulfilled();
         });
 
         it('should be able to update a bucket lifecycle', function () {
@@ -89,13 +90,12 @@
                 initialDays = 1,
                 finalDays = 2;
 
-            return expect(s3fsImpl.create()
-                .then(function () {
-                    return s3fsImpl.putBucketLifecycle('test-expiration-lifecycle', prefix, initialDays)
-                        .then(function () {
-                            return s3fsImpl.putBucketLifecycle('test-expiration-lifecycle', prefix, finalDays);
-                        });
-                })).to.eventually.be.fulfilled;
+            return expect(s3fsImpl.putBucketLifecycle('test-lifecycle-update', prefix, initialDays)
+                    .then(function () {
+                        return s3fsImpl.putBucketLifecycle('test-lifecycle-update', prefix, finalDays);
+                        //TODO: Add verification that the lifecycle was set
+                    })
+            ).to.eventually.be.fulfilled();
         });
 
         it('should be able to update a bucket lifecycle with a callback', function () {
@@ -103,15 +103,14 @@
                 initialDays = 1,
                 finalDays = 2;
 
-            return expect(s3fsImpl.create()
-                .then(function () {
-                    return s3fsImpl.putBucketLifecycle('test-expiration-lifecycle', prefix, initialDays)
-                        .then(function () {
-                            var cb = cbQ.cb();
-                            s3fsImpl.putBucketLifecycle('test-expiration-lifecycle', prefix, finalDays, cb);
-                            return cb.promise;
-                        });
-                })).to.eventually.be.fulfilled;
+            return expect(s3fsImpl.putBucketLifecycle('test-lifecycle-update-callback', prefix, initialDays)
+                    .then(function () {
+                        var cb = cbQ.cb();
+                        s3fsImpl.putBucketLifecycle('test-lifecycle-update-callback', prefix, finalDays, cb);
+                        return cb.promise;
+                        //TODO: Add verification that the lifecycle was set
+                    })
+            ).to.eventually.be.fulfilled();
         });
 
     });

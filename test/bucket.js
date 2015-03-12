@@ -45,7 +45,7 @@
                 secretAccessKey: process.env.AWS_SECRET_KEY,
                 region: process.env.AWS_REGION
             };
-            bucketName = 's3fs-test-bucket-' + (Math.random() + '').slice(2, 8);
+            bucketName = 's3fs-bucket-test-bucket-' + (Math.random() + '').slice(2, 8);
             s3fsImpl = new S3FS(s3Credentials, bucketName);
         });
 
@@ -63,7 +63,7 @@
         });
 
         it('should be able to create a new bucket', function () {
-            return expect(s3fsImpl.create()).to.eventually.be.fulfilled;
+            return expect(s3fsImpl.create()).to.eventually.be.fulfilled();
         });
 
         it('shouldn\'t received an error when creating a duplicate bucket owned by the same account', function () {
@@ -71,7 +71,7 @@
                     .then(function () {
                         return s3fsImpl.create();
                     })
-            ).to.eventually.be.fulfilled;
+            ).to.eventually.be.fulfilled();
         });
 
         it.skip('shouldn\'t be able to create a bucket with an invalid name', function () {
@@ -83,19 +83,19 @@
         });
 
         it('should be able to create a new bucket with options', function () {
-            return expect(s3fsImpl.create({})).to.eventually.be.fulfilled;
+            return expect(s3fsImpl.create({})).to.eventually.be.fulfilled();
         });
 
         it('should be able to create a new bucket with a callback', function () {
             var cb = cbQ.cb();
             s3fsImpl.create(cb);
-            return expect(cb.promise).to.eventually.be.fulfilled;
+            return expect(cb.promise).to.eventually.be.fulfilled();
         });
 
         it('should be able to create a new bucket with options and a callback', function () {
             var cb = cbQ.cb();
             s3fsImpl.create({}, cb);
-            return expect(cb.promise).to.eventually.be.fulfilled;
+            return expect(cb.promise).to.eventually.be.fulfilled();
         });
 
         it('should be able to delete a bucket', function () {
@@ -103,7 +103,7 @@
                     .then(function () {
                         return s3fsImpl.delete();
                     })
-            ).to.eventually.be.fulfilled;
+            ).to.eventually.be.fulfilled();
         });
 
         it('should be able to delete a bucket with a callback', function () {
@@ -113,7 +113,7 @@
                         s3fsImpl.delete(cb);
                         return cb.promise;
                     })
-            ).to.eventually.be.fulfilled;
+            ).to.eventually.be.fulfilled();
         });
 
         it('shouldn\'t be able to delete a bucket with contents', function () {
@@ -142,7 +142,7 @@
             return expect(s3fsImpl.create()
                 .then(function () {
                     return s3fsImpl.destroy();
-                })).to.eventually.be.fulfilled;
+                })).to.eventually.be.fulfilled();
         });
 
         it('should be able to destroy bucket with a callback', function () {
@@ -151,7 +151,7 @@
                     var cb = cbQ.cb();
                     s3fsImpl.destroy(cb);
                     return cb.promise;
-                })).to.eventually.be.fulfilled;
+                })).to.eventually.be.fulfilled();
         });
 
         it('should be able to list all the files in a bucket', function () {
@@ -175,7 +175,7 @@
                         return s3fsImpl.readdir('/');
                     })
             ).to.eventually.satisfy(function (files) {
-                    expect(files).to.have.length(2);
+                    expect(files).to.have.lengthOf(2);
                     expect(files[0]).to.equal('testDir/');
                     expect(files[1]).to.equal('testDirDos/');
                     return true;
@@ -205,7 +205,7 @@
                         return cb.promise;
                     })
             ).to.eventually.satisfy(function (files) {
-                    expect(files).to.have.length(2);
+                    expect(files).to.have.lengthOf(2);
                     expect(files[0]).to.equal('testDir/');
                     expect(files[1]).to.equal('testDirDos/');
                     return true;
