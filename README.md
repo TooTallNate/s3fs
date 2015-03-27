@@ -11,6 +11,8 @@
 
 Implementation of Node.JS [FS interface](http://nodejs.org/api/fs.html) using [Amazon Simple Storage Service (S3)](http://aws.amazon.com/s3/) for storage.
 
+**Lead Maintainer**: [David Pate](https://github.com/DavidTPate)
+
 ## Purpose
 S3FS provides a drop-in replacement for the File System (FS) implementation that is available with Node.JS allowing a distributed file-system to be used
 by Node.JS applications through the well-known [FS interface](http://nodejs.org/api/fs.html) used by Node.JS.
