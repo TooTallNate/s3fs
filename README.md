@@ -118,18 +118,18 @@ var fsImpl = new S3FS(options, 'test-bucket/test-folder');
 var fsImplStyles = fsImpl.clone('styles');
 ```
 
-### s3fs.copyObject(sourcePath, destinationPath, [cb])
-Allows an object to be copied from one path to another path within the same bucket. Paths are relative to
+### s3fs.copyFile(sourcePath, destinationPath, [cb])
+Allows a file to be copied from one path to another path within the same bucket. Paths are relative to
 the bucket originally provided.
 
-* sourcePath `String`. **Required**. Relative path to the source file
-* destinationPath `String`. **Required**. Relative path to the destination file
+* sourceFile `String`. **Required**. Relative path to the source file
+* destinationFile `String`. **Required**. Relative path to the destination file
 * cb `Function`. _Optional_. Callback to be used, if not provided will return a Promise
 
 ```js
 var fsImpl = new S3FS(options, 'test-bucket');
-fsImpl.copyObject('test-folder/test-file.txt', 'other-folder/test-file.txt').then(function() {
-  // Object was successfully copied
+fsImpl.copyFile('test-folder/test-file.txt', 'other-folder/test-file.txt').then(function() {
+  // File was successfully copied
 }, function(reason) {
   // Something went wrong
 });

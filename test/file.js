@@ -112,7 +112,7 @@
         it('should be able to copy an object', function () {
             return expect(bucketS3fsImpl.writeFile('test-copy.json', '{}')
                     .then(function () {
-                        return bucketS3fsImpl.copyObject('test-copy.json', 'test-copy-dos.json');
+                        return bucketS3fsImpl.copyFile('test-copy.json', 'test-copy-dos.json');
                     })
             ).to.eventually.be.fulfilled();
         });
@@ -121,7 +121,7 @@
             return expect(bucketS3fsImpl.writeFile('test-copy-callback.json', '{}')
                     .then(function () {
                         var cb = cbQ.cb();
-                        bucketS3fsImpl.copyObject('test-copy-callback.json', 'test-copy-callback-dos.json', cb);
+                        bucketS3fsImpl.copyFile('test-copy-callback.json', 'test-copy-callback-dos.json', cb);
                         return cb.promise;
                     })
             ).to.eventually.be.fulfilled();
