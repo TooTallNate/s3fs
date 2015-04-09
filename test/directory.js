@@ -29,7 +29,7 @@
     chai.use(dirtyChai);
     chai.config.includeStack = true;
 
-    describe('S3FS Directories', function () {
+    describe.only('S3FS Directories', function () {
         var s3Credentials,
             bucketName,
             bucketS3fsImpl,
@@ -211,7 +211,7 @@
                     })
                     .then(function () {
                         return new Promise(function (resolve, reject) {
-                            s3fsImpl.readdir('testCopyDirDestCb', function (err, data) {
+                            bucketS3fsImpl.readdir('testCopyDirDestCb', function (err, data) {
                                 if (err) {
                                     return reject(err);
                                 }
@@ -260,7 +260,7 @@
                         return bucketS3fsImpl.rmdirp('testDir/test')
                             .then(function () {
                                 return new Promise(function (resolve, reject) {
-                                    s3fsImpl.readdir('testDir', function (err, data) {
+                                    bucketS3fsImpl.readdir('testDir', function (err, data) {
                                         if (err) {
                                             return reject(err);
                                         }
@@ -299,7 +299,7 @@
                     })
                     .then(function () {
                         return new Promise(function (resolve, reject) {
-                            s3fsImpl.readdirp('testDir', function (err, data) {
+                            bucketS3fsImpl.readdirp('testDir', function (err, data) {
                                 if (err) {
                                     return reject(err);
                                 }
@@ -358,9 +358,14 @@
         it('should retrieve the stats of a directory with a callback - lstat(2)', function () {
             return expect(bucketS3fsImpl.mkdir('testDir/')
                     .then(function () {
-                        var cb = Promise.cb();
-                        bucketS3fsImpl.lstat('testDir/', cb);
-                        return cb.promise;
+                        return new Promise(function(resolve, reject) {
+                            bucketS3fsImpl.lstat('testDir/', function(err, data) {
+                                if (err) {
+                                    return reject(err);
+                                }
+                                resolve(data);
+                            });
+                        });
                     })
             ).to.eventually.satisfy(function (stats) {
                     expect(stats.isDirectory()).to.be.true();
@@ -396,9 +401,14 @@
                             });
                     })
                     .then(function () {
-                        var cb = Promise.cb();
-                        bucketS3fsImpl.readdir('testDir/', cb);
-                        return cb.promise;
+                        return new Promise(function(resolve, reject) {
+                            bucketS3fsImpl.readdir('testDir/', function(err, data) {
+                                if (err) {
+                                    return reject(err);
+                                }
+                                resolve(data);
+                            });
+                        });
                     })
             ).to.eventually.satisfy(function (files) {
                     expect(files).to.have.lengthOf(2);
@@ -435,9 +445,14 @@
                             });
                     })
                     .then(function () {
-                        var cb = Promise.cb();
-                        bucketS3fsImpl.listContents('testDir/', cb);
-                        return cb.promise;
+                        return new Promise(function(resolve, reject) {
+                            bucketS3fsImpl.listContents('testDir/', function(err, data) {
+                                if (err) {
+                                    return reject(err);
+                                }
+                                resolve(data);
+                            });
+                        });
                     })
             ).to.eventually.satisfy(function (files) {
                     expect(files).to.have.lengthOf(1);
