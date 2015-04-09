@@ -29,7 +29,7 @@
     chai.use(dirtyChai);
     chai.config.includeStack = true;
 
-    describe.only('S3FS Directories', function () {
+    describe('S3FS Directories', function () {
         var s3Credentials,
             bucketName,
             bucketS3fsImpl,
