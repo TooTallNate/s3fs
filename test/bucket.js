@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-(function (chai, chaiAsPromised, cbQ, S3FS) {
+(function (chai, chaiAsPromised, Promise, S3FS) {
     'use strict';
     var expect = chai.expect;
 
@@ -87,15 +87,25 @@
         });
 
         it('should be able to create a new bucket with a callback', function () {
-            var cb = cbQ.cb();
-            s3fsImpl.create(cb);
-            return expect(cb.promise).to.eventually.be.fulfilled();
+            return expect(new Promise(function (resolve, reject) {
+                s3fsImpl.create(function (err) {
+                    if (err) {
+                        return reject(err);
+                    }
+                    resolve();
+                });
+            })).to.eventually.be.fulfilled();
         });
 
         it('should be able to create a new bucket with options and a callback', function () {
-            var cb = cbQ.cb();
-            s3fsImpl.create({}, cb);
-            return expect(cb.promise).to.eventually.be.fulfilled();
+            return expect(new Promise(function (resolve, reject) {
+                s3fsImpl.create({}, function (err) {
+                    if (err) {
+                        return reject(err);
+                    }
+                    resolve();
+                });
+            })).to.eventually.be.fulfilled();
         });
 
         it('should be able to delete a bucket', function () {
@@ -109,9 +119,14 @@
         it('should be able to delete a bucket with a callback', function () {
             return expect(s3fsImpl.create()
                     .then(function () {
-                        var cb = cbQ.cb();
-                        s3fsImpl.delete(cb);
-                        return cb.promise;
+                        return new Promise(function (resolve, reject) {
+                            s3fsImpl.delete(function (err) {
+                                if (err) {
+                                    return reject(err);
+                                }
+                                resolve();
+                            });
+                        });
                     })
             ).to.eventually.be.fulfilled();
         });
@@ -131,9 +146,14 @@
                 .then(function () {
                     return s3fsImpl.writeFile('test', 'test')
                         .then(function () {
-                            var cb = cbQ.cb();
-                            s3fsImpl.delete(cb);
-                            return cb.promise;
+                            return new Promise(function (resolve, reject) {
+                                s3fsImpl.delete(function (err) {
+                                    if (err) {
+                                        return reject(err);
+                                    }
+                                    resolve();
+                                });
+                            });
                         });
                 })).to.eventually.be.rejectedWith(Error, 'The bucket you tried to delete is not empty');
         });
@@ -148,9 +168,14 @@
         it('should be able to destroy bucket with a callback', function () {
             return expect(s3fsImpl.create()
                 .then(function () {
-                    var cb = cbQ.cb();
-                    s3fsImpl.destroy(cb);
-                    return cb.promise;
+                    return new Promise(function (resolve, reject) {
+                        s3fsImpl.destroy(function (err) {
+                            if (err) {
+                                return reject(err);
+                            }
+                            resolve();
+                        });
+                    });
                 })).to.eventually.be.fulfilled();
         });
 
@@ -200,9 +225,14 @@
                             });
                     })
                     .then(function () {
-                        var cb = cbQ.cb();
-                        s3fsImpl.readdir('/', cb);
-                        return cb.promise;
+                        return new Promise(function (resolve, reject) {
+                            s3fsImpl.readdir('/', function (err, data) {
+                                if (err) {
+                                    return reject(err);
+                                }
+                                resolve(data);
+                            });
+                        });
                     })
             ).to.eventually.satisfy(function (files) {
                     expect(files).to.have.lengthOf(2);
@@ -213,4 +243,4 @@
         });
 
     });
-}(require('chai'), require('chai-as-promised'), require('cb-q'), require('../')));
+}(require('chai'), require('chai-as-promised'), require('bluebird'), require('../')));

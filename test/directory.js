@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-(function (chai, chaiAsPromised, dirtyChai, cbQ, S3FS) {
+(function (chai, chaiAsPromised, dirtyChai, Promise, S3FS) {
     'use strict';
     var expect = chai.expect;
 
@@ -68,35 +68,45 @@
         });
 
         it('should be able to create a directory', function () {
-            return expect(bucketS3fsImpl.mkdir('testDir')).to.eventually.be.fulfilled;
+            return expect(bucketS3fsImpl.mkdir('testDir')).to.eventually.be.fulfilled();
         });
 
         it('should be able to create a directory with a callback', function () {
-            var cb = cbQ.cb();
-            bucketS3fsImpl.mkdir('testDir', cb);
-            return expect(cb.promise).to.eventually.be.fulfilled;
+            return expect(new Promise(function (resolve, reject) {
+                s3fsImpl.mkdir('testDir', function (err) {
+                    if (err) {
+                        return reject(err);
+                    }
+                    resolve();
+                });
+            })).to.eventually.be.fulfilled();
         });
 
         it('should be able to recursively create directories', function () {
-            return expect(bucketS3fsImpl.mkdirp('testDir/testSubDir/anotherDir')).to.eventually.be.fulfilled;
+            return expect(bucketS3fsImpl.mkdirp('testDir/testSubDir/anotherDir')).to.eventually.be.fulfilled();
         });
 
         it('should be able to recursively create directories with a callback', function () {
-            var cb = cbQ.cb();
-            bucketS3fsImpl.mkdirp('testDirDos/testSubDir/anotherDir', cb);
-            return expect(cb.promise).to.eventually.be.fulfilled;
+            return expect(new Promise(function (resolve, reject) {
+                s3fsImpl.mkdirp('testDirDos/testSubDir/anotherDir', function (err) {
+                    if (err) {
+                        return reject(err);
+                    }
+                    resolve();
+                });
+            })).to.eventually.be.fulfilled();
         });
 
         it('should be able to tell that a directory exists', function () {
-            return expect(bucketS3fsImpl.exists('/')).to.eventually.be.fulfilled;
+            return expect(bucketS3fsImpl.exists('/')).to.eventually.be.fulfilled();
         });
 
         it('should be able to tell that a directory exists with a callback', function () {
-            var cb = cbQ.cb();
-            bucketS3fsImpl.exists('/', function (exists) {
-                cb(null, exists);
-            });
-            return expect(cb.promise).to.eventually.be.equal(true);
+            return expect(new Promise(function (resolve) {
+                s3fsImpl.exists('/', function (exists) {
+                    resolve(exists);
+                });
+            })).to.eventually.be.equal(true);
         });
 
         it.skip('should be able to tell that a sub-directory exists', function () {
@@ -112,9 +122,11 @@
             //TODO: Fix this so that it actually works on sub-directories.
             return expect(bucketS3fsImpl.mkdir('testDir')
                 .then(function () {
-                    var cb = cbQ.cb();
-                    bucketS3fsImpl.exists('testDir/', cb);
-                    return cb.promise;
+                    return new Promise(function (resolve) {
+                        s3fsImpl.exists('testDir/', function (exists) {
+                            resolve(exists);
+                        });
+                    });
                 })).to.eventually.be.equal(true);
         });
 
@@ -123,17 +135,22 @@
                     .then(function () {
                         return bucketS3fsImpl.rmdir('testDir');
                     })
-            ).to.eventually.be.fulfilled;
+            ).to.eventually.be.fulfilled();
         });
 
         it('should be able to remove an empty directory with a callback', function () {
             return expect(bucketS3fsImpl.mkdir('testDir')
                     .then(function () {
-                        var cb = cbQ.cb();
-                        bucketS3fsImpl.rmdir('testDir', cb);
-                        return cb.promise;
+                        return new Promise(function (resolve, reject) {
+                            s3fsImpl.rmdir('testDir', function (err) {
+                                if (err) {
+                                    return reject(err);
+                                }
+                                resolve();
+                            });
+                        });
                     })
-            ).to.eventually.be.fulfilled;
+            ).to.eventually.be.fulfilled();
         });
 
         it('should be able to remove a non-empty directory', function () {
@@ -144,7 +161,7 @@
                     .then(function () {
                         return bucketS3fsImpl.rmdir('testDir');
                     })
-            ).to.eventually.be.fulfilled;
+            ).to.eventually.be.fulfilled();
         });
 
         it('should be able to remove a non-empty directory with a callback', function () {
@@ -153,11 +170,16 @@
                         return bucketS3fsImpl.writeFile('testDir/test.json', '{}');
                     })
                     .then(function () {
-                        var cb = cbQ.cb();
-                        bucketS3fsImpl.rmdir('testDir', cb);
-                        return cb.promise;
+                        return new Promise(function (resolve, reject) {
+                            s3fsImpl.rmdir('testDir', function (err) {
+                                if (err) {
+                                    return reject(err);
+                                }
+                                resolve();
+                            });
+                        });
                     })
-            ).to.eventually.be.fulfilled;
+            ).to.eventually.be.fulfilled();
         });
 
         it('should be able to copy a directory recursively', function () {
@@ -188,9 +210,14 @@
                         return bucketS3fsImpl.copyDirectory('testDir', 'testCopyDirDestCb');
                     })
                     .then(function () {
-                        var cb = cbQ.cb();
-                        bucketS3fsImpl.readdir('testCopyDirDestCb', cb);
-                        return cb.promise;
+                        return new Promise(function (resolve, reject) {
+                            bucketS3fsImpl.readdir('testCopyDirDestCb', function (err, data) {
+                                if (err) {
+                                    return reject(err);
+                                }
+                                resolve(data);
+                            });
+                        });
                     })
             ).to.eventually.satisfy(function (files) {
                     expect(files).to.have.lengthOf(2);
@@ -232,9 +259,14 @@
                     .then(function () {
                         return bucketS3fsImpl.rmdirp('testDir/test')
                             .then(function () {
-                                var cb = cbQ.cb();
-                                bucketS3fsImpl.readdir('testDir', cb);
-                                return cb.promise;
+                                return new Promise(function (resolve, reject) {
+                                    bucketS3fsImpl.readdir('testDir', function (err, data) {
+                                        if (err) {
+                                            return reject(err);
+                                        }
+                                        resolve(data);
+                                    });
+                                });
                             });
                     })
             ).to.eventually.satisfy(function (files) {
@@ -266,9 +298,14 @@
                         return bucketS3fsImpl.writeFile('testDir/test/test.json', '{}');
                     })
                     .then(function () {
-                        var cb = cbQ.cb();
-                        bucketS3fsImpl.readdirp('testDir', cb);
-                        return cb.promise;
+                        return new Promise(function (resolve, reject) {
+                            bucketS3fsImpl.readdirp('testDir', function (err, data) {
+                                if (err) {
+                                    return reject(err);
+                                }
+                                resolve(data);
+                            });
+                        });
                     })
             ).to.eventually.satisfy(function (files) {
                     expect(files).to.have.lengthOf(2);
@@ -292,9 +329,14 @@
         it('should retrieve the stats of a directory with a callback - stat(2)', function () {
             return expect(bucketS3fsImpl.mkdir('testDir/')
                     .then(function () {
-                        var cb = cbQ.cb();
-                        bucketS3fsImpl.stat('testDir/', cb);
-                        return cb.promise;
+                        return new Promise(function (resolve, reject) {
+                            s3fsImpl.stat('testDir/', function (err, data) {
+                                if (err) {
+                                    return reject(err);
+                                }
+                                resolve(data);
+                            });
+                        });
                     })
             ).to.eventually.satisfy(function (stats) {
                     expect(stats.isDirectory()).to.be.true();
@@ -316,9 +358,14 @@
         it('should retrieve the stats of a directory with a callback - lstat(2)', function () {
             return expect(bucketS3fsImpl.mkdir('testDir/')
                     .then(function () {
-                        var cb = cbQ.cb();
-                        bucketS3fsImpl.lstat('testDir/', cb);
-                        return cb.promise;
+                        return new Promise(function (resolve, reject) {
+                            bucketS3fsImpl.lstat('testDir/', function (err, data) {
+                                if (err) {
+                                    return reject(err);
+                                }
+                                resolve(data);
+                            });
+                        });
                     })
             ).to.eventually.satisfy(function (stats) {
                     expect(stats.isDirectory()).to.be.true();
@@ -354,9 +401,14 @@
                             });
                     })
                     .then(function () {
-                        var cb = cbQ.cb();
-                        bucketS3fsImpl.readdir('testDir/', cb);
-                        return cb.promise;
+                        return new Promise(function (resolve, reject) {
+                            bucketS3fsImpl.readdir('testDir/', function (err, data) {
+                                if (err) {
+                                    return reject(err);
+                                }
+                                resolve(data);
+                            });
+                        });
                     })
             ).to.eventually.satisfy(function (files) {
                     expect(files).to.have.lengthOf(2);
@@ -393,9 +445,14 @@
                             });
                     })
                     .then(function () {
-                        var cb = cbQ.cb();
-                        bucketS3fsImpl.listContents('testDir/', cb);
-                        return cb.promise;
+                        return new Promise(function (resolve, reject) {
+                            bucketS3fsImpl.listContents('testDir/', function (err, data) {
+                                if (err) {
+                                    return reject(err);
+                                }
+                                resolve(data);
+                            });
+                        });
                     })
             ).to.eventually.satisfy(function (files) {
                     expect(files).to.have.lengthOf(1);
@@ -405,4 +462,4 @@
         });
 
     });
-}(require('chai'), require('chai-as-promised'), require('dirty-chai'), require('cb-q'), require('../')));
+}(require('chai'), require('chai-as-promised'), require('dirty-chai'), require('bluebird'), require('../')));
