@@ -292,7 +292,7 @@
                         return reject(err);
                     }
                     resolve(data);
-                })
+                });
             })).to.eventually.be.fulfilled();
         });
 
@@ -309,7 +309,7 @@
                         return reject(err);
                     }
                     resolve(data);
-                })
+                });
             })).to.eventually.be.fulfilled();
         });
 

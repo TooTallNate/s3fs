@@ -126,7 +126,7 @@
                         s3fsImpl.exists('testDir/', function (exists) {
                             resolve(exists);
                         });
-                    })
+                    });
                 })).to.eventually.be.equal(true);
         });
 
@@ -148,7 +148,7 @@
                                 }
                                 resolve();
                             });
-                        })
+                        });
                     })
             ).to.eventually.be.fulfilled();
         });
