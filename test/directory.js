@@ -358,8 +358,8 @@
         it('should retrieve the stats of a directory with a callback - lstat(2)', function () {
             return expect(bucketS3fsImpl.mkdir('testDir/')
                     .then(function () {
-                        return new Promise(function(resolve, reject) {
-                            bucketS3fsImpl.lstat('testDir/', function(err, data) {
+                        return new Promise(function (resolve, reject) {
+                            bucketS3fsImpl.lstat('testDir/', function (err, data) {
                                 if (err) {
                                     return reject(err);
                                 }
@@ -401,8 +401,8 @@
                             });
                     })
                     .then(function () {
-                        return new Promise(function(resolve, reject) {
-                            bucketS3fsImpl.readdir('testDir/', function(err, data) {
+                        return new Promise(function (resolve, reject) {
+                            bucketS3fsImpl.readdir('testDir/', function (err, data) {
                                 if (err) {
                                     return reject(err);
                                 }
@@ -445,8 +445,8 @@
                             });
                     })
                     .then(function () {
-                        return new Promise(function(resolve, reject) {
-                            bucketS3fsImpl.listContents('testDir/', function(err, data) {
+                        return new Promise(function (resolve, reject) {
+                            bucketS3fsImpl.listContents('testDir/', function (err, data) {
                                 if (err) {
                                     return reject(err);
                                 }

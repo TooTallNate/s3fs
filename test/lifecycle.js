@@ -81,8 +81,8 @@
             var days = 1;
 
             //TODO: Add verification that the lifecycle was set
-            return expect(new Promise(function(resolve, reject) {
-                bucketS3fsImpl.putBucketLifecycle('test-lifecycle-callback', prefix, days, function(err, data) {
+            return expect(new Promise(function (resolve, reject) {
+                bucketS3fsImpl.putBucketLifecycle('test-lifecycle-callback', prefix, days, function (err, data) {
                     if (err) {
                         return reject(err);
                     }
@@ -111,8 +111,8 @@
 
             return expect(s3fsImpl.putBucketLifecycle('test-lifecycle-update-callback', prefix, initialDays)
                     .then(function () {
-                        return new Promise(function(resolve, reject) {
-                            bucketS3fsImpl.putBucketLifecycle('test-lifecycle-update-callback', prefix, finalDays, function(err, data) {
+                        return new Promise(function (resolve, reject) {
+                            bucketS3fsImpl.putBucketLifecycle('test-lifecycle-update-callback', prefix, finalDays, function (err, data) {
                                 if (err) {
                                     return reject(err);
                                 }
