@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-(function (chai, chaiAsPromised, fs, cbQ, Q, S3FS) {
+(function (chai, chaiAsPromised, S3FS) {
     'use strict';
     var expect = chai.expect;
 
@@ -44,7 +44,7 @@
                 region: process.env.AWS_REGION
             };
             bucketName = 's3fs-clone-test-bucket-' + (Math.random() + '').slice(2, 8);
-            s3fsImpl = new S3FS(s3Credentials, bucketName);
+            s3fsImpl = new S3FS(bucketName, s3Credentials);
 
             return s3fsImpl.create();
         });
@@ -66,28 +66,34 @@
             });
         });
 
-        it('shouldn\'t be able to instaniate S3FS without options', function () {
+        it('shouldn\'t be able to instantiate S3FS without a bucket', function () {
             return expect(function () {
                 S3FS();
-            }).to.throw(Error, 'options is required');
+            }).to.throw(Error, 'bucket is required');
         });
 
-        it('shouldn\'t be able to instaniate S3FS without an accessKeyId', function () {
+        it('shouldn\'t be able to instantiate S3FS with an invalid bucket', function () {
             return expect(function () {
                 S3FS({});
-            }).to.throw(Error, 'accessKeyId is required');
+            }).to.throw(Error, 'bucket must be a string');
         });
 
-        it('shouldn\'t be able to instaniate S3FS without a secretAccessKey', function () {
+        it('should be able to instantiate S3FS without options', function () {
             return expect(function () {
-                S3FS({accessKeyId: 'test'});
-            }).to.throw(Error, 'secretAccessKey is required');
+                S3FS('bucket');
+            }).to.not.throw();
         });
 
-        it('shouldn\'t be able to instaniate S3FS without a bucket', function () {
+        it('shouldn\'t be able to instantiate S3FS without an accessKeyId', function () {
             return expect(function () {
-                S3FS({accessKeyId: 'test', secretAccessKey: 'test'});
-            }).to.throw(Error, 'bucket is required');
+                S3FS('bucket', {});
+            }).to.not.throw();
+        });
+
+        it('shouldn\'t be able to instantiate S3FS without a secretAccessKey', function () {
+            return expect(function () {
+                S3FS('bucket', {accessKeyId: 'test'});
+            }).to.not.throw();
         });
 
         it('should be able to clone s3fs', function () {
@@ -107,4 +113,4 @@
         });
 
     });
-}(require('chai'), require('chai-as-promised'), require('fs'), require('cb-q'), require('q'), require('../')));
+}(require('chai'), require('chai-as-promised'), require('../')));

@@ -1,7 +1,7 @@
 {
   "name": "s3fs",
-  "version": "1.1.0",
-  "description": "Implementation of NodeJS FS interface using Amazon Simple Storage Service (S3).",
+  "version": "2.0.0",
+  "description": "Implementation of Node.JS FS interface using Amazon Simple Storage Service (S3).",
   "keywords": [
     "s3fs",
     "amazon s3",
@@ -40,9 +40,8 @@
   "main": "index.js",
   "dependencies": {
     "aws-sdk": "^2.x",
-    "cb-q": "^0.x",
-    "extend": "^2.x",
-    "q": "^1.x"
+    "bluebird": "^2.x",
+    "extend": "^2.x"
   },
   "devDependencies": {
     "buddy.js": "^0.x",
@@ -54,11 +53,9 @@
     "istanbul": "^0.x",
     "jscs": "^1.x",
     "jshint": "^2.x",
-    "jsinspect": "^0.x",
-    "reporter-file": "^1.x"
+    "jsinspect": "^0.x"
   },
   "scripts": {
-    "test": "MOCHA_REPORTER=Spec MOCHA_REPORTER_FILE=reports/xunit.xml istanbul cover node_modules/mocha/bin/_mocha -- --check-leaks  --timeout 60000 --reporter reporter-file test/ && jshint --show-non-errors . && jscs . && buddy index.js lib test && nsp audit-package",
-    "inspect": "jshint --show-non-errors --reporter=jslint . > reports/jshint.xml | echo 'Oh hai' && jscs --reporter checkstyle . > reports/checkstyle.xml | echo 'The name is' && jsinspect . > reports/jsinspect.json | echo 'Bond,' && buddy --reporter json index.js lib test > reports/buddy.json | echo 'James' && nsp audit-package >& reports/security.txt | echo 'Bond.'"
+    "test": "istanbul cover node_modules/mocha/bin/_mocha -- --check-leaks  --timeout 60000 --reporter nyan test/ && jshint --show-non-errors . && jscs . && buddy index.js lib test && nsp audit-package"
   }
 }

@@ -66,10 +66,7 @@ or promises. There isn't any support for synchronous actions currently as there 
 ### Example Callback Usage
 ```js
 var S3FS = require('s3fs');
-var fsImpl = new S3FS({
-                            accessKeyId: XXXXXXXXXXX,
-                            secretAccessKey: XXXXXXXXXXXXXXXXX
-                          }, 'test-bucket');
+var fsImpl = new S3FS('test-bucket', options);
 fsImpl.writeFile('message.txt', 'Hello Node', function (err) {
   if (err) throw err;
   console.log('It\'s saved!');
@@ -79,10 +76,7 @@ fsImpl.writeFile('message.txt', 'Hello Node', function (err) {
 ### Example Promise Usage
 ```js
 var S3FS = require('s3fs');
-var fsImpl = new S3FS({
-                            accessKeyId: XXXXXXXXXXX,
-                            secretAccessKey: XXXXXXXXXXXXXXXXX
-                          }, 'test-bucket');
+var fsImpl = new S3FS('test-bucket', options);
 fsImpl.writeFile('message.txt', 'Hello Node').then(function() {
   console.log('It\'s saved!');
 }, function(reason) {
@@ -113,52 +107,52 @@ Provides a clone of the instance of S3FS which has relative access to the specif
 
 ```js
 // Create an instance of S3FS which has a current working directory of `test-folder` within the S3 bucket `test-bucket`
-var fsImpl = new S3FS(options, 'test-bucket/test-folder');
+var fsImpl = new S3FS('test-bucket/test-folder', options);
 // Creates a copy (which uses the same instance of S3FS) which has a current working directory of `test-folder/styles`
 var fsImplStyles = fsImpl.clone('styles');
 ```
 
-### s3fs.copyObject(sourcePath, destinationPath, [cb])
-Allows an object to be copied from one path to another path within the same bucket. Paths are relative to
+### s3fs.copyFile(sourcePath, destinationPath[, callback])
+Allows a file to be copied from one path to another path within the same bucket. Paths are relative to
 the bucket originally provided.
 
-* sourcePath `String`. **Required**. Relative path to the source file
-* destinationPath `String`. **Required**. Relative path to the destination file
-* cb `Function`. _Optional_. Callback to be used, if not provided will return a Promise
+* sourceFile `String`. **Required**. Relative path to the source file
+* destinationFile `String`. **Required**. Relative path to the destination file
+* callback `Function`. _Optional_. Callback to be used, if not provided will return a Promise
 
 ```js
-var fsImpl = new S3FS(options, 'test-bucket');
-fsImpl.copyObject('test-folder/test-file.txt', 'other-folder/test-file.txt').then(function() {
-  // Object was successfully copied
+var fsImpl = new S3FS('test-bucket', options);
+fsImpl.copyFile('test-folder/test-file.txt', 'other-folder/test-file.txt').then(function() {
+  // File was successfully copied
 }, function(reason) {
   // Something went wrong
 });
 ```
 
-### s3fs.copyDir(sourcePath, destinationPath, [cb])
+### s3fs.copyDir(sourcePath, destinationPath[, callback])
 Recursively copies a directory from the source path to the destination path.
 
 * sourcePath `String`. **Required**. The source directory to be copied
 * destinationPath `String`. **Required**. The destination directory to be copied to
-* cb `Function`. _Optional_. Callback to be used, if not provided will return a Promise
+* callback `Function`. _Optional_. Callback to be used, if not provided will return a Promise
 
 ```js
-var fsImpl = new S3FS(options, 'test-bucket');
-fsImpl.copyDirectory('test-folder', 'other-folder').then(function() {
+var fsImpl = new S3FS('test-bucket', options);
+fsImpl.copyDir('test-folder', 'other-folder').then(function() {
   // Directory was successfully copied
 }, function(reason) {
   // Something went wrong
 });
 ```
 
-### s3fs.create(options, [cb])
+### s3fs.create(options[, callback])
 Creates a new bucket on S3.
 
 * options `Object`. _Optional_. The options to be used when creating the bucket. See [AWS SDK](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#createBucket-property)
-* cb `Function`. _Optional_. Callback to be used, if not provided will return a Promise
+* callback `Function`. _Optional_. Callback to be used, if not provided will return a Promise
 
 ```js
-var fsImpl = new S3FS(options, 'test-bucket');
+var fsImpl = new S3FS('test-bucket', options);
 fsImpl.create().then(function() {
   // Bucket was successfully created
 }, function(reason) {
@@ -166,14 +160,14 @@ fsImpl.create().then(function() {
 });
 ```
 
-### s3fs.delete([cb])
+### s3fs.delete([callback])
 Deletes a bucket on S3, can only be deleted when empty. If you need to delete one that isn't empty use
-[`destroy([cb])`](#s3fsdestroycb) instead.
+[`destroy([callback])`](#s3fsdestroycallback) instead.
 
-* cb `Function`. _Optional_. Callback to be used, if not provided will return a Promise
+* callback `Function`. _Optional_. Callback to be used, if not provided will return a Promise
 
 ```js
-var fsImpl = new S3FS(options, 'test-bucket');
+var fsImpl = new S3FS('test-bucket', options);
 fsImpl.delete().then(function() {
   // Bucket was successfully deleted
 }, function(reason) {
@@ -181,13 +175,13 @@ fsImpl.delete().then(function() {
 });
 ```
 
-### s3fs.destroy([cb])
+### s3fs.destroy([callback])
 Recursively deletes all files within the bucket and then deletes the bucket.
 
-* cb `Function`. _Optional_. Callback to be used, if not provided will return a Promise
+* callback `Function`. _Optional_. Callback to be used, if not provided will return a Promise
 
 ```js
-var fsImpl = new S3FS(options, 'test-bucket');
+var fsImpl = new S3FS('test-bucket', options);
 fsImpl.destroy().then(function() {
   // Bucket was successfully destroyed
 }, function(reason) {
@@ -195,14 +189,14 @@ fsImpl.destroy().then(function() {
 });
 ```
 
-### s3fs.headObject(path, [cb])
+### s3fs.headObject(path[, callback])
 Retrieves the details about an object, but not the contents.
 
 * path `String`. **Required**. Path to the object to retrieve the head for
-* cb `Function`. _Optional_. Callback to be used, if not provided will return a Promise
+* callback `Function`. _Optional_. Callback to be used, if not provided will return a Promise
 
 ```js
-var fsImpl = new S3FS(options, 'test-bucket');
+var fsImpl = new S3FS('test-bucket', options);
 fsImpl.headObject('test-file.txt').then(function(details) {
   // Details contains details such as the `ETag` about the object. See [AWS SDK](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#headObject-property) for details.
 }, function(reason) {
@@ -210,16 +204,16 @@ fsImpl.headObject('test-file.txt').then(function(details) {
 });
 ```
 
-### s3fs.listContents(path, marker, [cb])
-Retrieves a list of all objects within the specific path. The result is similar to that of [`headObject(path, [cb])`](#s3fsheadobjectpath-cb)
+### s3fs.listContents(path, marker[, callback])
+Retrieves a list of all objects within the specific path. The result is similar to that of [`headObject(path[, callback])`](#s3fsheadobjectpath-callback)
 expect that it contains an array of objects.
 
 * path `String`. **Required**. The path to list all of the objects for
 * marker `String`. **Required**. The key to start with when listing objects
-* cb `Function`. _Optional_. Callback to be used, if not provided will return a Promise
+* callback `Function`. _Optional_. Callback to be used, if not provided will return a Promise
 
 ```js
-var fsImpl = new S3FS(options, 'test-bucket');
+var fsImpl = new S3FS('test-bucket', options);
 fsImpl.listContents('/', '/').then(function(data) {
   // Data.Contents contains details such as the `ETag` about the object. See [AWS SDK](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#headObject-property) for details.
 }, function(reason) {
@@ -227,16 +221,16 @@ fsImpl.listContents('/', '/').then(function(data) {
 });
 ```
 
-### s3fs.putBucketLifecycle(name, prefix, days, [cb])
+### s3fs.putBucketLifecycle(name, prefix, days[, callback])
 Adds/Updates a lifecycle on a bucket.
 
 * name `String`. **Required**. The name of the lifecycle. The value cannot be longer than 255 characters.
 * prefix `String`. **Required**. Prefix identifying one or more objects to which the rule applies.
 * days Indicates the lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer.
-* cb `Function`. _Optional_. Callback to be used, if not provided will return a Promise
+* callback `Function`. _Optional_. Callback to be used, if not provided will return a Promise
 
 ```js
-mpl = new S3FS(options, 'test-bucket');
+var fsImpl = new S3FS(options, 'test-bucket');
 // Remove the Cached contents in the `/cache` directory each day.
 fsImpl.putBucketLifecycle('expire cache', 'cache', 1).then(function() {
   // Bucket Lifecycle was successfully added/updated
@@ -245,13 +239,13 @@ fsImpl.putBucketLifecycle('expire cache', 'cache', 1).then(function() {
 });
 ```
 
-### s3fs.readdirp(path, [cb])
+### s3fs.readdirp(path[, callback])
 Recursively reads a directory.
 
 * path `String`. **Required**. The path to the directory to read from
 
 ```js
-var fsImpl = new S3FS(options, 'test-bucket');
+var fsImpl = new S3FS('test-bucket', options);
 fsImpl.readdirp('test-folder').then(function(files) {
   // Files contains a list of all of the files similar to [`fs.readdir(path, callback)`](http://nodejs.org/api/fs.html#fs_fs_readdir_path_callback) but with recursive contents
 }, function(reason) {
@@ -259,14 +253,29 @@ fsImpl.readdirp('test-folder').then(function(files) {
 });
 ```
 
-### s3fs.rmdirp(path, [cb])
+### s3fs.mkdirp(path[, callback])
+Recursively creates a directory.
+
+* path The path to the directory to create
+* callback `Function`. _Optional_. Callback to be used, if not provided will return a Promise
+
+```js
+var fsImpl = new S3FS('test-bucket', options);
+fsImpl.mkdirp('test-folder').then(function() {
+  // Directory has been recursively created
+}, function(reason) {
+  // Something went wrong
+});
+```
+
+### s3fs.rmdirp(path[, callback])
 Recursively deletes a directory.
 
 * path The path to the directory to delete
-* cb `Function`. _Optional_. Callback to be used, if not provided will return a Promise
+* callback `Function`. _Optional_. Callback to be used, if not provided will return a Promise
 
 ```js
-var fsImpl = new S3FS(options, 'test-bucket');
+var fsImpl = new S3FS('test-bucket', options);
 fsImpl.rmdirp('test-folder').then(function() {
   // Directory has been recursively deleted
 }, function(reason) {
@@ -303,25 +312,6 @@ Lines        : 78.07% ( 356/456 )
 
 Additionally, an interactive HTML report will be generated in `./coverage/lcov-report/index.html` which allows browsing the coverage by file.
 
-## Code Style
-This repository uses [JSHint](https://github.com/jshint/jshint) for static analysis, [JavaScript Code Style](https://github.com/jscs-dev/node-jscs)
-for validating code style, [JSInspect](https://github.com/danielstjules/jsinspect) to detect code duplication, [Buddy.js](https://github.com/danielstjules/buddy.js)
-to detect the use of [Magic Numbers](http://en.wikipedia.org/wiki/Magic_number_(programming)),
-and [Node Security Project](https://github.com/nodesecurity/nsp) for detecting potential security threats with our dependencies.
-
-To run the code quality tools above, simply execute the following command:
-
-```bash
-npm run inspect
-```
-
-This will create files with the results in the `reports` directory.
-
-## ToDo
-* More tests
-* More documentation
-* Eat more cookies
-* Move over to `cb-q` to simplify supporting promises and callbacks
 
 ## License
 [MIT](LICENSE)
