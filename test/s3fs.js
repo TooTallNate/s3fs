@@ -66,27 +66,33 @@
             });
         });
 
-        it('shouldn\'t be able to instaniate S3FS without a bucket', function () {
+        it('shouldn\'t be able to instantiate S3FS without a bucket', function () {
             return expect(function () {
                 S3FS();
             }).to.throw(Error, 'bucket is required');
         });
 
-        it('should be able to instaniate S3FS without options', function () {
+        it('shouldn\'t be able to instantiate S3FS with an invalid bucket', function () {
+            return expect(function () {
+                S3FS({});
+            }).to.throw(Error, 'bucket must be a string');
+        });
+
+        it('should be able to instantiate S3FS without options', function () {
             return expect(function () {
                 S3FS('bucket');
             }).to.not.throw();
         });
 
-        it('shouldn\'t be able to instaniate S3FS without an accessKeyId', function () {
+        it('shouldn\'t be able to instantiate S3FS without an accessKeyId', function () {
             return expect(function () {
-                S3FS({});
+                S3FS('bucket', {});
             }).to.not.throw();
         });
 
-        it('shouldn\'t be able to instaniate S3FS without a secretAccessKey', function () {
+        it('shouldn\'t be able to instantiate S3FS without a secretAccessKey', function () {
             return expect(function () {
-                S3FS({accessKeyId: 'test'});
+                S3FS('bucket', {accessKeyId: 'test'});
             }).to.not.throw();
         });
 
