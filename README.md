@@ -66,10 +66,7 @@ or promises. There isn't any support for synchronous actions currently as there 
 ### Example Callback Usage
 ```js
 var S3FS = require('s3fs');
-var fsImpl = new S3FS({
-                            accessKeyId: XXXXXXXXXXX,
-                            secretAccessKey: XXXXXXXXXXXXXXXXX
-                          }, 'test-bucket');
+var fsImpl = new S3FS('test-bucket', options);
 fsImpl.writeFile('message.txt', 'Hello Node', function (err) {
   if (err) throw err;
   console.log('It\'s saved!');
@@ -79,10 +76,7 @@ fsImpl.writeFile('message.txt', 'Hello Node', function (err) {
 ### Example Promise Usage
 ```js
 var S3FS = require('s3fs');
-var fsImpl = new S3FS({
-                            accessKeyId: XXXXXXXXXXX,
-                            secretAccessKey: XXXXXXXXXXXXXXXXX
-                          }, 'test-bucket');
+var fsImpl = new S3FS('test-bucket', options);
 fsImpl.writeFile('message.txt', 'Hello Node').then(function() {
   console.log('It\'s saved!');
 }, function(reason) {
@@ -113,7 +107,7 @@ Provides a clone of the instance of S3FS which has relative access to the specif
 
 ```js
 // Create an instance of S3FS which has a current working directory of `test-folder` within the S3 bucket `test-bucket`
-var fsImpl = new S3FS(options, 'test-bucket/test-folder');
+var fsImpl = new S3FS('test-bucket/test-folder', options);
 // Creates a copy (which uses the same instance of S3FS) which has a current working directory of `test-folder/styles`
 var fsImplStyles = fsImpl.clone('styles');
 ```
@@ -127,7 +121,7 @@ the bucket originally provided.
 * callback `Function`. _Optional_. Callback to be used, if not provided will return a Promise
 
 ```js
-var fsImpl = new S3FS(options, 'test-bucket');
+var fsImpl = new S3FS('test-bucket', options);
 fsImpl.copyFile('test-folder/test-file.txt', 'other-folder/test-file.txt').then(function() {
   // File was successfully copied
 }, function(reason) {
@@ -143,7 +137,7 @@ Recursively copies a directory from the source path to the destination path.
 * callback `Function`. _Optional_. Callback to be used, if not provided will return a Promise
 
 ```js
-var fsImpl = new S3FS(options, 'test-bucket');
+var fsImpl = new S3FS('test-bucket', options);
 fsImpl.copyDir('test-folder', 'other-folder').then(function() {
   // Directory was successfully copied
 }, function(reason) {
@@ -158,7 +152,7 @@ Creates a new bucket on S3.
 * callback `Function`. _Optional_. Callback to be used, if not provided will return a Promise
 
 ```js
-var fsImpl = new S3FS(options, 'test-bucket');
+var fsImpl = new S3FS('test-bucket', options);
 fsImpl.create().then(function() {
   // Bucket was successfully created
 }, function(reason) {
@@ -173,7 +167,7 @@ Deletes a bucket on S3, can only be deleted when empty. If you need to delete on
 * callback `Function`. _Optional_. Callback to be used, if not provided will return a Promise
 
 ```js
-var fsImpl = new S3FS(options, 'test-bucket');
+var fsImpl = new S3FS('test-bucket', options);
 fsImpl.delete().then(function() {
   // Bucket was successfully deleted
 }, function(reason) {
@@ -187,7 +181,7 @@ Recursively deletes all files within the bucket and then deletes the bucket.
 * callback `Function`. _Optional_. Callback to be used, if not provided will return a Promise
 
 ```js
-var fsImpl = new S3FS(options, 'test-bucket');
+var fsImpl = new S3FS('test-bucket', options);
 fsImpl.destroy().then(function() {
   // Bucket was successfully destroyed
 }, function(reason) {
@@ -202,7 +196,7 @@ Retrieves the details about an object, but not the contents.
 * callback `Function`. _Optional_. Callback to be used, if not provided will return a Promise
 
 ```js
-var fsImpl = new S3FS(options, 'test-bucket');
+var fsImpl = new S3FS('test-bucket', options);
 fsImpl.headObject('test-file.txt').then(function(details) {
   // Details contains details such as the `ETag` about the object. See [AWS SDK](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#headObject-property) for details.
 }, function(reason) {
@@ -219,7 +213,7 @@ expect that it contains an array of objects.
 * callback `Function`. _Optional_. Callback to be used, if not provided will return a Promise
 
 ```js
-var fsImpl = new S3FS(options, 'test-bucket');
+var fsImpl = new S3FS('test-bucket', options);
 fsImpl.listContents('/', '/').then(function(data) {
   // Data.Contents contains details such as the `ETag` about the object. See [AWS SDK](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#headObject-property) for details.
 }, function(reason) {
@@ -236,7 +230,7 @@ Adds/Updates a lifecycle on a bucket.
 * callback `Function`. _Optional_. Callback to be used, if not provided will return a Promise
 
 ```js
-mpl = new S3FS(options, 'test-bucket');
+var fsImpl = new S3FS(options, 'test-bucket');
 // Remove the Cached contents in the `/cache` directory each day.
 fsImpl.putBucketLifecycle('expire cache', 'cache', 1).then(function() {
   // Bucket Lifecycle was successfully added/updated
@@ -251,7 +245,7 @@ Recursively reads a directory.
 * path `String`. **Required**. The path to the directory to read from
 
 ```js
-var fsImpl = new S3FS(options, 'test-bucket');
+var fsImpl = new S3FS('test-bucket', options);
 fsImpl.readdirp('test-folder').then(function(files) {
   // Files contains a list of all of the files similar to [`fs.readdir(path, callback)`](http://nodejs.org/api/fs.html#fs_fs_readdir_path_callback) but with recursive contents
 }, function(reason) {
@@ -266,7 +260,7 @@ Recursively creates a directory.
 * callback `Function`. _Optional_. Callback to be used, if not provided will return a Promise
 
 ```js
-var fsImpl = new S3FS(options, 'test-bucket');
+var fsImpl = new S3FS('test-bucket', options);
 fsImpl.mkdirp('test-folder').then(function() {
   // Directory has been recursively created
 }, function(reason) {
@@ -281,7 +275,7 @@ Recursively deletes a directory.
 * callback `Function`. _Optional_. Callback to be used, if not provided will return a Promise
 
 ```js
-var fsImpl = new S3FS(options, 'test-bucket');
+var fsImpl = new S3FS('test-bucket', options);
 fsImpl.rmdirp('test-folder').then(function() {
   // Directory has been recursively deleted
 }, function(reason) {
