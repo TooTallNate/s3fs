@@ -77,6 +77,16 @@
             return expect(cb.promise).to.eventually.be.fulfilled;
         });
 
+        it('should be able to recursively create directories', function () {
+            return expect(bucketS3fsImpl.mkdirp('testDir/testSubDir/anotherDir')).to.eventually.be.fulfilled;
+        });
+
+        it('should be able to recursively create directories with a callback', function () {
+            var cb = cbQ.cb();
+            bucketS3fsImpl.mkdirp('testDirDos/testSubDir/anotherDir', cb);
+            return expect(cb.promise).to.eventually.be.fulfilled;
+        });
+
         it('should be able to tell that a directory exists', function () {
             return expect(bucketS3fsImpl.exists('/')).to.eventually.be.fulfilled;
         });

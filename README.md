@@ -259,6 +259,21 @@ fsImpl.readdirp('test-folder').then(function(files) {
 });
 ```
 
+### s3fs.mkdirp(path, [cb])
+Recursively creates a directory.
+
+* path The path to the directory to create
+* cb `Function`. _Optional_. Callback to be used, if not provided will return a Promise
+
+```js
+var fsImpl = new S3FS(options, 'test-bucket');
+fsImpl.mkdirp('test-folder').then(function() {
+  // Directory has been recursively created
+}, function(reason) {
+  // Something went wrong
+});
+```
+
 ### s3fs.rmdirp(path, [cb])
 Recursively deletes a directory.
 
