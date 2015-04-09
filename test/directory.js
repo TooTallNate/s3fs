@@ -68,27 +68,27 @@
         });
 
         it('should be able to create a directory', function () {
-            return expect(bucketS3fsImpl.mkdir('testDir')).to.eventually.be.fulfilled;
+            return expect(bucketS3fsImpl.mkdir('testDir')).to.eventually.be.fulfilled();
         });
 
         it('should be able to create a directory with a callback', function () {
             var cb = cbQ.cb();
             bucketS3fsImpl.mkdir('testDir', cb);
-            return expect(cb.promise).to.eventually.be.fulfilled;
+            return expect(cb.promise).to.eventually.be.fulfilled();
         });
 
         it('should be able to recursively create directories', function () {
-            return expect(bucketS3fsImpl.mkdirp('testDir/testSubDir/anotherDir')).to.eventually.be.fulfilled;
+            return expect(bucketS3fsImpl.mkdirp('testDir/testSubDir/anotherDir')).to.eventually.be.fulfilled();
         });
 
         it('should be able to recursively create directories with a callback', function () {
             var cb = cbQ.cb();
             bucketS3fsImpl.mkdirp('testDirDos/testSubDir/anotherDir', cb);
-            return expect(cb.promise).to.eventually.be.fulfilled;
+            return expect(cb.promise).to.eventually.be.fulfilled();
         });
 
         it('should be able to tell that a directory exists', function () {
-            return expect(bucketS3fsImpl.exists('/')).to.eventually.be.fulfilled;
+            return expect(bucketS3fsImpl.exists('/')).to.eventually.be.fulfilled();
         });
 
         it('should be able to tell that a directory exists with a callback', function () {
@@ -123,7 +123,7 @@
                     .then(function () {
                         return bucketS3fsImpl.rmdir('testDir');
                     })
-            ).to.eventually.be.fulfilled;
+            ).to.eventually.be.fulfilled();
         });
 
         it('should be able to remove an empty directory with a callback', function () {
@@ -133,7 +133,7 @@
                         bucketS3fsImpl.rmdir('testDir', cb);
                         return cb.promise;
                     })
-            ).to.eventually.be.fulfilled;
+            ).to.eventually.be.fulfilled();
         });
 
         it('should be able to remove a non-empty directory', function () {
@@ -144,7 +144,7 @@
                     .then(function () {
                         return bucketS3fsImpl.rmdir('testDir');
                     })
-            ).to.eventually.be.fulfilled;
+            ).to.eventually.be.fulfilled();
         });
 
         it('should be able to remove a non-empty directory with a callback', function () {
@@ -157,7 +157,7 @@
                         bucketS3fsImpl.rmdir('testDir', cb);
                         return cb.promise;
                     })
-            ).to.eventually.be.fulfilled;
+            ).to.eventually.be.fulfilled();
         });
 
         it('should be able to copy a directory recursively', function () {

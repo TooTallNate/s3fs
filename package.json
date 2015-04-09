@@ -40,9 +40,9 @@
   "main": "index.js",
   "dependencies": {
     "aws-sdk": "^2.x",
+    "bluebird": "^2.x",
     "cb-q": "^0.x",
-    "extend": "^2.x",
-    "q": "^1.x"
+    "extend": "^2.x"
   },
   "devDependencies": {
     "buddy.js": "^0.x",
