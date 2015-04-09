@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-(function (chai, chaiAsPromised, fs, cbQ, Q, S3FS) {
+(function (chai, chaiAsPromised, S3FS) {
     'use strict';
     var expect = chai.expect;
 
@@ -107,4 +107,4 @@
         });
 
     });
-}(require('chai'), require('chai-as-promised'), require('fs'), require('cb-q'), require('q'), require('../')));
+}(require('chai'), require('chai-as-promised'), require('../')));

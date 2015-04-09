@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-(function (chai, chaiAsPromised, cbQ, S3FS) {
+(function (chai, chaiAsPromised, Promise, S3FS) {
     'use strict';
     var expect = chai.expect;
 
@@ -77,12 +77,18 @@
         });
 
         it('should be able to set a bucket lifecycle with a callback', function () {
-            var prefix = 'test',
-                days = 1,
-                cb = cbQ.cb();
-            bucketS3fsImpl.putBucketLifecycle('test-lifecycle-callback', prefix, days, cb);
+            var prefix = 'test';
+            var days = 1;
+
             //TODO: Add verification that the lifecycle was set
-            return expect(cb.promise).to.eventually.be.fulfilled();
+            return expect(new Promise(function(resolve, reject) {
+                bucketS3fsImpl.putBucketLifecycle('test-lifecycle-callback', prefix, days, function(err, data) {
+                    if (err) {
+                        return reject(err);
+                    }
+                    resolve(data);
+                });
+            })).to.eventually.be.fulfilled();
         });
 
         it('should be able to update a bucket lifecycle', function () {
@@ -105,13 +111,18 @@
 
             return expect(s3fsImpl.putBucketLifecycle('test-lifecycle-update-callback', prefix, initialDays)
                     .then(function () {
-                        var cb = cbQ.cb();
-                        s3fsImpl.putBucketLifecycle('test-lifecycle-update-callback', prefix, finalDays, cb);
-                        return cb.promise;
+                        return new Promise(function(resolve, reject) {
+                            bucketS3fsImpl.putBucketLifecycle('test-lifecycle-update-callback', prefix, finalDays, function(err, data) {
+                                if (err) {
+                                    return reject(err);
+                                }
+                                resolve(data);
+                            });
+                        });
                         //TODO: Add verification that the lifecycle was set
                     })
             ).to.eventually.be.fulfilled();
         });
 
     });
-}(require('chai'), require('chai-as-promised'), require('cb-q'), require('../')));
+}(require('chai'), require('chai-as-promised'), require('bluebird'), require('../')));
