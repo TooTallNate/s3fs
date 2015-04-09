@@ -44,7 +44,7 @@
                 region: process.env.AWS_REGION
             };
             bucketName = 's3fs-file-test-bucket-' + (Math.random() + '').slice(2, 8);
-            s3fsImpl = new S3FS(s3Credentials, bucketName);
+            s3fsImpl = new S3FS(bucketName, s3Credentials);
 
             return s3fsImpl.create();
         });

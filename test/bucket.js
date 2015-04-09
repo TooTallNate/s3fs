@@ -46,7 +46,7 @@
                 region: process.env.AWS_REGION
             };
             bucketName = 's3fs-bucket-test-bucket-' + (Math.random() + '').slice(2, 8);
-            s3fsImpl = new S3FS(s3Credentials, bucketName);
+            s3fsImpl = new S3FS(bucketName, s3Credentials);
         });
 
         afterEach(function (done) {
@@ -78,7 +78,7 @@
             // See: http://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html
             //TODO: Even though this is an invalid bucketname the AWS SDK still lets you create it.
             var bucketMaxLength = 64;
-            s3fsImpl = new S3FS(s3Credentials, new Array(bucketMaxLength).join('asdf'));
+            s3fsImpl = new S3FS(new Array(bucketMaxLength).join('asdf'), s3Credentials);
             return expect(s3fsImpl.create()).to.eventually.be.rejectedWith('asdf');
         });
 
