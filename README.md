@@ -135,7 +135,7 @@ fsImpl.copyObject('test-folder/test-file.txt', 'other-folder/test-file.txt').the
 });
 ```
 
-### s3fs.copyDirectory(sourcePath, destinationPath, [cb])
+### s3fs.copyDir(sourcePath, destinationPath, [cb])
 Recursively copies a directory from the source path to the destination path.
 
 * sourcePath `String`. **Required**. The source directory to be copied
