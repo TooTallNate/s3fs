@@ -188,7 +188,7 @@
                         return bucketS3fsImpl.writeFile('testDir/test/test.json', '{}');
                     })
                     .then(function () {
-                        return bucketS3fsImpl.copyDirectory('testDir', 'testCopyDirDestPromise');
+                        return bucketS3fsImpl.copyDir('testDir', 'testCopyDirDestPromise');
                     })
                     .then(function () {
                         return bucketS3fsImpl.readdir('testCopyDirDestPromise');
@@ -207,7 +207,7 @@
                         return bucketS3fsImpl.writeFile('testDir/test/test.json', '{}');
                     })
                     .then(function () {
-                        return bucketS3fsImpl.copyDirectory('testDir', 'testCopyDirDestCb');
+                        return bucketS3fsImpl.copyDir('testDir', 'testCopyDirDestCb');
                     })
                     .then(function () {
                         return new Promise(function (resolve, reject) {
