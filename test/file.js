@@ -86,7 +86,7 @@
             return expect(bucketS3fsImpl.writeFile('write-large.txt', largeFile)).to.eventually.be.fulfilled();
         });
 
-        it.only('should be able to write a file with encoding', function () {
+        it('should be able to write a file with encoding', function () {
             var fileText = '{ "test": "test" }';
             var options = {encoding: 'utf16'};
             return bucketS3fsImpl.writeFile('test-file.json', fileText, {encoding: 'utf16'}).then(function () {
