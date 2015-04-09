@@ -86,6 +86,17 @@
             return expect(bucketS3fsImpl.writeFile('write-large.txt', largeFile)).to.eventually.be.fulfilled();
         });
 
+        it.only('should be able to write a file with encoding', function () {
+            var fileText = '{ "test": "test" }';
+            var options = {encoding: 'utf16'};
+            return bucketS3fsImpl.writeFile('test-file.json', fileText, {encoding: 'utf16'}).then(function () {
+                return expect(bucketS3fsImpl.readFile('test-file.json', options)).to.eventually.satisfy(function (data) {
+                    expect(data.Body.toString()).to.equal(fileText);
+                    return true;
+                });
+            });
+        });
+
         it('should be able to write a large file with a callback', function () {
             var largeFile = fs.readFileSync('./test/mock/large-file.txt');
             return expect(new Promise(function (resolve, reject) {
