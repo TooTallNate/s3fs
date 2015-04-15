@@ -167,13 +167,13 @@
 
         it('should be able to destroy bucket with contents in it', function () {
             return expect(s3fsImpl.create()
-                .then(function() {
+                .then(function () {
                     return s3fsImpl.writeFile('test.json', 'test');
                 })
-                .then(function() {
+                .then(function () {
                     return s3fsImpl.writeFile('some/folder.json', 'test');
                 })
-                .then(function() {
+                .then(function () {
                     return s3fsImpl.writeFile('some/highly/nested/object/in/folder/which/is/highly/nested.json', 'test');
                 })
                 .then(function () {
@@ -183,14 +183,14 @@
 
         it('should be able to destroy bucket with contents in it from a sub-folder', function () {
             return expect(s3fsImpl.create()
-                .then(function() {
+                .then(function () {
                     s3fsImpl = s3fsImpl.clone('sub/folder');
                     return s3fsImpl.writeFile('test.json', 'test');
                 })
-                .then(function() {
+                .then(function () {
                     return s3fsImpl.writeFile('some/folder.json', 'test');
                 })
-                .then(function() {
+                .then(function () {
                     return s3fsImpl.writeFile('some/highly/nested/object/in/folder/which/is/highly/nested.json', 'test');
                 })
                 .then(function () {
