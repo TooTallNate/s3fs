@@ -1,6 +1,6 @@
 {
   "name": "s3fs",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Implementation of Node.JS FS interface using Amazon Simple Storage Service (S3).",
   "keywords": [
     "s3fs",
